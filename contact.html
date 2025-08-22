@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Shri Govindam Nursery and Farms</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/chatbot.css">
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <img src="assets/logo.svg" alt="Govindam Nursery Logo">
+            </div>
+            <div class="loading-title">Shri Govindam Nursery and Farms</div>
+            <div class="loading-subtitle">Bringing Green to Life</div>
+            <div class="loading-spinner">
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+            </div>
+            <div class="loading-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text">Loading...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Animation Elements -->
+    <div class="floating-elements">
+        <div class="leaf leaf-1"><i class="fas fa-leaf"></i></div>
+        <div class="leaf leaf-2"><i class="fas fa-leaf"></i></div>
+        <div class="leaf leaf-3"><i class="fas fa-leaf"></i></div>
+        <div class="butterfly butterfly-1"><i class="fas fa-bug"></i></div>
+        <div class="butterfly butterfly-2"><i class="fas fa-bug"></i></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="assets/logo.svg" alt="Govindam Nursery Logo">
+                <span>Shri Govindam Nursery and Farms</span>
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="gallery.html" class="nav-link">Gallery</a>
+                </li>
+                <li class="nav-item">
+                    <a href="packages.html" class="nav-link">Packages</a>
+                </li>
+                <li class="nav-item">
+                    <a href="carbon.html" class="nav-link">Carbon Offset</a>
+                </li>
+                <li class="nav-item">
+                    <a href="contact.html" class="nav-link active">Contact</a>
+                </li>
+
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contact Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="header-content" data-aos="fade-up">
+                <h1 class="page-title">Get In Touch</h1>
+                <p class="page-subtitle">We're here to help you create your perfect green space</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Contact Actions -->
+    <section class="quick-contact">
+        <div class="container">
+            <div class="quick-contact-grid">
+                <a href="tel:+918290038052" class="quick-contact-item" data-aos="fade-up" data-aos-delay="100">
+                    <div class="quick-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="quick-text">
+                        <h4>Call Now</h4>
+                        <p>+91 82900 38052</p>
+                    </div>
+                </a>
+
+                <a href="https://wa.me/918290038052" target="_blank" class="quick-contact-item" data-aos="fade-up"
+                    data-aos-delay="200">
+                    <div class="quick-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <div class="quick-text">
+                        <h4>WhatsApp</h4>
+                        <p>Chat with us</p>
+                    </div>
+                </a>
+
+                <a href="mailto:sgnd1997@gmail.com" class="quick-contact-item" data-aos="fade-up"
+                    data-aos-delay="300">
+                    <div class="quick-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="quick-text">
+                        <h4>Email Us</h4>
+                        <p>sgnd1997@gmail.com</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="container">
+            <div class="contact-content">
+                <!-- Contact Form -->
+                <div class="contact-form-container" data-aos="fade-right">
+                    <h2>Send Us a Message</h2>
+                    <p>Have questions about our plants or need gardening advice? We'd love to hear from you!</p>
+
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-group">
+                            <label for="name" class="form-label">Your Name</label>
+                            <input type="text" id="name" name="name" class="form-input" required>
+                            <div class="form-focus-line"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" id="email" name="email" class="form-input" required>
+                            <div class="form-focus-line"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone" class="form-label">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" class="form-input">
+                            <div class="form-focus-line"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject" class="form-label">Subject</label>
+                            <select id="subject" name="subject" class="form-input" required>
+                                <option value="">Choose a subject</option>
+                                <option value="plant-inquiry">Plant Inquiry</option>
+                                <option value="bulk-order">Bulk Order</option>
+                                <option value="care-advice">Plant Care Advice</option>
+                                <option value="visit-nursery">Visit Nursery</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <div class="form-focus-line"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message" class="form-label">Your Message</label>
+                            <textarea id="message" name="message" class="form-input" rows="5" required></textarea>
+                            <div class="form-focus-line"></div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary form-submit">
+                            <i class="fas fa-paper-plane"></i>
+                            Send Message
+                        </button>
+                    </form>
+
+                    <div class="form-success" id="formSuccess">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>Message Sent Successfully!</h3>
+                        <p>Thank you for contacting us. We'll get back to you within 24 hours.</p>
+                    </div>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="contact-info-container" data-aos="fade-left">
+                    <h2>Visit Our Nursery</h2>
+                    <p>Come and explore our beautiful collection of plants and trees in person.</p>
+
+                    <div class="contact-details">
+                        <div class="contact-detail">
+                            <div class="detail-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Address</h4>
+                                <p>Shri Govindam Nursery and Farms<br>Dhodhsar, Jaipur, Rajasthan 303712<br>India</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-detail">
+                            <div class="detail-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Opening Hours</h4>
+                                <p>Monday - Saturday: 7:00 AM - 7:00 PM<br>Sunday: 8:00 AM - 6:00 PM</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-detail">
+                            <div class="detail-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Phone & Email</h4>
+                                <p>+91 82900 38052<br>sgnd1997@gmail.com</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-detail">
+                            <div class="detail-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Services</h4>
+                                <p>Plant consultation<br>Bulk orders<br>Home delivery<br>Garden setup</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Map -->
+                    <div class="map-container">
+                        <h3>Find Us on Map</h3>
+                        <div class="map-embed">
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d791.8406097228!2d75.61832097237233!3d27.2982412643018!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396cfbefdc4fc9b1%3A0xe6517120b124dda3!2sShri%20govindam%20nursery%20and%20farms!5e0!3m2!1sen!2sin!4v1755329153355!5m2!1sen!2sin"
+                                width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                        <!-- <div class="map-overlay">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Shri Govindam Nursery and Farms Location</span>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="assets/logo.svg" alt="Govindam Nursery">
+                        <span>Shri Govindam Nursery and Farms</span>
+                    </div>
+                    <p>Bringing Green to Life - One Tree at a Time!</p>
+                    <p><a href="https://wa.me/918290038052" target="_blank" style="color: #fff; text-decoration: underline;">WhatsApp: +91 82900 38052</a> • <a href="mailto:sgnd1997@gmail.com" style="color: #fff; text-decoration: underline;">Email</a></p>
+                    <div class="social-links">
+                        <a href="https://wa.me/918290038052" class="social-link" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://www.instagram.com/shrigovindamnursery?igsh=Mzg2dTV4amVjdTMx" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://x.com/DhodhsarSh75198?t=9Ieh8o9FsUQofdTCNlZCNA&s=09" class="social-link" target="_blank"><i
+                                class="fab fa-twitter"></i></a>
+                        <a href="https://www.facebook.com/GovindamNursery" class="social-link" target="_blank"><i class="fab fa-facebook"></i></a>
+                        
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="packages.html">Packages</a></li>
+                        <li><a href="carbon.html">Carbon Offset</a></li>
+                        <li><a href="index.html#about">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Shri Govindam Nursery and Farms
+                            Dhodhsar, Jaipur, Rajasthan 303712
+                            India</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+91 82900 38052</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>sgnd1997@gmail.com</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Shri Govindam Nursery and Farms. All rights reserved. | Designed with <i class="fas fa-heart"></i> for
+                    nature lovers</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/chatbot.js"></script>
+</body>
+
+</html>

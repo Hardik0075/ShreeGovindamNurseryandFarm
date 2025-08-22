@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Carbon Offset Certificate - Shri Govindam Nursery and Farms</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            background: #f5f5f5;
+            padding: 20px;
+            font-family: 'Poppins', sans-serif;
+        }
+        .sample-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .sample-title {
+            text-align: center;
+            color: #2c5530;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+        .certificate-preview {
+            border: 3px solid #4a7c59;
+            border-radius: 15px;
+            padding: 40px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        .certificate-preview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="leaves" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M10 0 Q15 5 10 10 Q5 5 10 0" fill="%234a7c59" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23leaves)"/></svg>');
+            pointer-events: none;
+        }
+        .certificate-preview::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="none" stroke="%234a7c59" stroke-width="2" opacity="0.3"/><path d="M35 50 L45 60 L65 40" stroke="%234a7c59" stroke-width="3" fill="none" opacity="0.5"/></svg>');
+            pointer-events: none;
+        }
+        
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 4rem;
+            color: rgba(74, 124, 89, 0.08);
+            font-weight: 700;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .security-border {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 2px solid transparent;
+            background: linear-gradient(45deg, #4a7c59, #2d5a3d, #4a7c59) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            border-radius: 15px;
+            pointer-events: none;
+        }
+        .cert-header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+        }
+        .cert-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #4a7c59, #2d5a3d);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 2rem;
+            box-shadow: 0 4px 15px rgba(74, 124, 89, 0.4);
+            border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+        .cert-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2c5530;
+            margin-bottom: 10px;
+        }
+        .cert-subtitle {
+            font-size: 1.1rem;
+            color: #6c757d;
+            font-weight: 400;
+        }
+        .cert-body {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+        }
+        .cert-line {
+            font-size: 1.2rem;
+            color: #495057;
+            margin-bottom: 15px;
+            font-weight: 400;
+        }
+        .cert-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: #2c5530;
+            margin: 20px 0;
+            text-decoration: underline;
+            text-decoration-color: #4a7c59;
+            text-decoration-thickness: 2px;
+            background: linear-gradient(135deg, #2c5530, #4a7c59);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            padding: 10px 20px;
+            border: 2px solid #4a7c59;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        .cert-count {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #4a7c59;
+            margin: 20px 0;
+            background: rgba(74, 124, 89, 0.1);
+            padding: 15px 30px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        .cert-offset {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #28a745;
+            margin: 20px 0;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            padding: 20px 40px;
+            border-radius: 15px;
+            border: 2px solid #28a745;
+        }
+        .cert-small {
+            font-size: 1rem;
+            color: #6c757d;
+            font-style: italic;
+            margin: 20px 0;
+        }
+        .cert-meta {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(74, 124, 89, 0.05);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            color: #495057;
+        }
+        .cert-footer {
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            position: relative;
+            z-index: 1;
+        }
+        .signatures {
+            display: flex;
+            gap: 60px;
+        }
+        .sig-line {
+            text-align: center;
+        }
+        .sig-line::before {
+            content: '';
+            display: block;
+            width: 120px;
+            height: 2px;
+            background: #4a7c59;
+            margin-bottom: 10px;
+        }
+        .sig-name {
+            font-weight: 600;
+            color: #2c5530;
+            font-size: 1rem;
+        }
+        .sig-title {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        .cert-id {
+            text-align: right;
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        .status-badge {
+            background: #28a745;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .back-button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 30px;
+            background: #4a7c59;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .back-button:hover {
+            background: #2c5530;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="sample-container">
+        <h1 class="sample-title">Sample Carbon Offset Certificate</h1>
+        
+        <div class="certificate-preview" id="certificateCard">
+            <div class="watermark">SHRI GOVINDAM NURSERY AND FARMS</div>
+            <div class="security-border"></div>
+            <div class="cert-header">
+                <div class="cert-logo">
+                    <i class="fas fa-seedling"></i>
+                </div>
+                <h1 class="cert-title">Shri Govindam Nursery and Farms</h1>
+                <p class="cert-subtitle">Carbon Offset Certificate</p>
+            </div>
+            
+            <div class="cert-body">
+                <p class="cert-line">This is to certify that</p>
+                <h3 class="cert-name">Mukesh Sharma</h3>
+                <p class="cert-line">has planted/pledged</p>
+                <h4 class="cert-count">5 Mango plant(s)</h4>
+                <p class="cert-line">Estimated yearly carbon offset:</p>
+                <div class="cert-offset">~ 110 kg CO₂ / year</div>
+                <p class="cert-small">This certificate acknowledges your contribution to carbon sequestration.</p>
+                
+                <div class="cert-meta">
+                    <span>Certificate ID: GN-2024-A7B2C9</span>
+                    <span>Date: January 15, 2024</span>
+                    <span class="status-badge">Verified</span>
+                </div>
+            </div>
+            
+            <div class="cert-footer">
+                <div class="signatures">
+                    <div class="sig-line">
+                        <div class="sig-name">Shri Govindam Nursery and Farms</div>
+                        <div class="sig-title">Authorized Signature</div>
+                    </div>
+                    <div class="sig-line">
+                        <div class="sig-name">Carbon Offset Program</div>
+                        <div class="sig-title">Program Director</div>
+                    </div>
+                </div>
+                <div class="cert-id">
+                    <div>Certificate ID: GN-2024-A7B2C9</div>
+                    <div>Verification: Verified</div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="text-align: center;">
+            <a href="carbon.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Carbon Offset Page
+            </a>
+        </div>
+    </div>
+</body>
+</html>

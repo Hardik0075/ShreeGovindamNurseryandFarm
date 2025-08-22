@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Shri Govindam Nursery and Farms</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/chatbot.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <img src="assets/logo.svg" alt="Govindam Nursery Logo">
+            </div>
+            <div class="loading-title">Shri Govindam Nursery and Farms</div>
+            <div class="loading-subtitle">Bringing Green to Life</div>
+            <div class="loading-spinner">
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+            </div>
+            <div class="loading-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text">Loading...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Animation Elements -->
+    <div class="floating-elements">
+        <div class="leaf leaf-1"><i class="fas fa-leaf"></i></div>
+        <div class="leaf leaf-2"><i class="fas fa-leaf"></i></div>
+        <div class="leaf leaf-3"><i class="fas fa-leaf"></i></div>
+        <div class="butterfly butterfly-1"><i class="fas fa-bug"></i></div>
+        <div class="butterfly butterfly-2"><i class="fas fa-bug"></i></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="assets/logo.svg" alt="Govindam Nursery Logo">
+                <span>Shri Govindam Nursery and Farms</span>
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="gallery.html" class="nav-link active">Gallery</a>
+                </li>
+                <li class="nav-item">
+                    <a href="packages.html" class="nav-link">Packages</a>
+                </li>
+                <li class="nav-item">
+                    <a href="carbon.html" class="nav-link">Carbon Offset</a>
+                </li>
+                <li class="nav-item">
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </li>
+
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Gallery Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="header-content" data-aos="fade-up">
+                <h1 class="page-title">Our Green Gallery</h1>
+                <p class="page-subtitle">Explore our beautiful collection of plants, trees, and nursery landscapes</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery-section">
+        <div class="container">
+            <div class="gallery-content">
+                <!-- Gallery Grid -->
+                <div class="gallery-grid">
+                    <div class="gallery-item" data-aos="fade-up" data-aos-delay="100">
+                        <div class="gallery-card">
+                            <div class="card-image">
+                                <img src="assets/1000028576.jpg" alt="Premium Mango Trees" loading="lazy">
+                                <span class="image-label">Premium Quality Trees</span>
+                            </div>
+                            <div class="card-overlay">
+                                <h4>Premium Quality Trees</h4>
+                                <p>High-quality grafted plant varieties ready for plantation</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-aos="fade-up" data-aos-delay="200">
+                        <div class="gallery-card">
+                            <div class="card-image">
+                                <img src="assets/1000028564.jpg" alt="Medicinal Neem Plants" loading="lazy">
+                                <span class="image-label">Medicinal Plants</span>
+                            </div>
+                            <div class="card-overlay">
+                                <h4>Medicinal Plants</h4>
+                                <p>Authentic medicinal plants known for their healing properties</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-aos="fade-up" data-aos-delay="300">
+                        <div class="gallery-card">
+                            <div class="card-image">
+                                <img src="assets/1000028570.jpg" alt="Shri Govindam Nursery and Farms Office" loading="lazy">
+                                <span class="image-label">Our Office</span>
+                            </div>
+                            <div class="card-overlay">
+                                <h4>Shri Govindam Office</h4>
+                                <p>Welcome to the heart of Shri Govindam Nursery and Farms, where all the planning and care begins.</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="gallery-item" data-aos="fade-up" data-aos-delay="400">
+                        <div class="gallery-card">
+                            <div class="card-image">
+                                <img src="assets/1000028079.jpg" alt="Decorative Plants" loading="lazy">
+                                <span class="image-label" style="opacity:1; background: rgba(0,0,0,0.5); padding: 4px 8px; border-radius: 6px;">Decorative Plants<br>.</span>
+                            </div>
+                            <div class="card-overlay">
+                                <h4>Decorative Plants</h4>
+                                <p>Beautiful ornamental plants for indoor and outdoor decoration</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-aos="fade-up" data-aos-delay="500">
+                        <div class="gallery-card">
+                            <div class="card-image">
+                                <img src="assets/1000028077.jpg" alt="Nursery Landscape" loading="lazy">
+                                <span class="image-label" style="opacity:1; background: rgba(0,0,0,0.5); padding: 4px 8px; border-radius: 6px;">Nursery Landscape<br>.</span>
+                            </div>
+                            <div class="card-overlay">
+                                <h4>Nursery Landscape</h4>
+                                <p>Our beautiful nursery grounds with diverse plant collections</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-aos="fade-up" data-aos-delay="600">
+                        <div class="gallery-card">
+                            <div class="card-image">
+                                <img src="assets/1000028072.jpg" alt="Fruitful Plants" loading="lazy">
+                                <span class="image-label" style="opacity:1; background: rgba(0,0,0,0.5); padding: 4px 8px; border-radius: 6px;">Fruitful Plants<br>.</span>
+                            </div>
+                            <div class="card-overlay">
+                                <h4>Fruitful
+                                    Plants</h4>
+                                <p>Explore our variety of fruit-bearing plants perfect for home and commercial gardens.</p>
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+
+                <!-- Gallery Info Sidebar -->
+                <div class="gallery-info" data-aos="fade-left" data-aos-delay="300">
+                    <div class="info-card">
+                        <h3>About Our Nursery</h3>
+                        <p>Shri Govindam Nursery and Farms has been serving the community for over two decades, providing premium
+                            quality plants and trees. Our commitment to excellence and sustainable practices has made us
+                            a trusted name in horticulture.</p>
+
+                        <h4>Our Specialties</h4>
+                        <ul class="specialty-list">
+                            <li><i class="fas fa-seedling"></i> Premium Fruit Trees (Mango, Citrus, Guava)</li>
+                            <li><i class="fas fa-leaf"></i> Medicinal Plants (Neem, Tulsi, Aloe Vera)</li>
+                            <li><i class="fas fa-spa"></i> Decorative & Ornamental Plants</li>
+                            <li><i class="fas fa-tree"></i> Shade & Timber Trees</li>
+                            <li><i class="fas fa-tools"></i> Gardening Tools & Accessories</li>
+                            <li><i class="fas fa-heart"></i> Plant Care & Consultation Services</li>
+                        </ul>
+
+                        <div class="info-stats">
+                            <div class="stat">
+                                <div class="stat-number">500+</div>
+                                <div class="stat-label">Plant Varieties</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">10,000+</div>
+                                <div class="stat-label">Happy Customers</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">20+</div>
+                                <div class="stat-label">Years Experience</div>
+                            </div>
+                        </div>
+
+                        <div class="download-section">
+                            <a href="#" class="btn btn-primary download-btn" onclick="downloadBrochure()">
+                                <i class="fas fa-file-pdf"></i>
+                                Download PDF Brochure
+                            </a>
+                            <p class="download-note">Get our complete plant catalog and care guide as PDF</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content" data-aos="fade-up">
+                <h2>Ready to Create Your Green Paradise?</h2>
+                <p>Visit our nursery today and let our experts help you choose the perfect plants for your space.</p>
+                <div class="cta-buttons">
+                    <a href="contact.html" class="btn btn-primary">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Visit Our Nursery
+                    </a>
+                    <a href="tel:+918290038052" class="btn btn-secondary">
+                        <i class="fas fa-phone"></i>
+                        Call Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="assets/logo.svg" alt="Govindam Nursery">
+                        <span>Shri Govindam Nursery and Farms</span>
+                    </div>
+                    <p>Bringing Green to Life - One Tree at a Time!</p>
+                    <p><a href="https://wa.me/918290038052" target="_blank" style="color: #fff; text-decoration: underline;">WhatsApp: +91 82900 38052</a> • <a href="mailto:sgnd1997@gmail.com" style="color: #fff; text-decoration: underline;">Email</a></p>
+                    <div class="social-links">
+                        <a href="https://wa.me/918290038052" class="social-link" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://www.instagram.com/shrigovindamnursery?igsh=Mzg2dTV4amVjdTMx" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://x.com/DhodhsarSh75198?t=9Ieh8o9FsUQofdTCNlZCNA&s=09" class="social-link" target="_blank"><i
+                                class="fab fa-twitter"></i></a>
+                        <a href="https://www.facebook.com/share/1BEGhCb4tR/" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <!-- <a href="mailto:sgnd1997@gmail.com" class="social-link"><i class="fas fa-envelope"></i></a> -->
+                    </div>
+                    <div class="social-placeholder">
+                        <span>Follow us:</span>
+                        <a href="#" title="Instagram">Instagram</a>
+                        <a href="#" title="Facebook">Facebook</a>
+                        <a href="#" title="X">X</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="packages.html">Packages</a></li>
+                        <li><a href="carbon.html">Carbon Offset</a></li>
+                        <li><a href="index.html#about">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Shri Govindam Nursery and Farms
+                            Dhodhsar, Jaipur, Rajasthan 303712
+                            India</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+91 82900 38052</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>sgnd1997@gmail.com</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Shri Govindam Nursery and Farms. All rights reserved. | Designed with <i class="fas fa-heart"></i> for
+                    nature lovers</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/chatbot.js"></script>
+</body>
+
+</html>

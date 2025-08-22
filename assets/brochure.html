@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shree Govindam Nursery and Farms - Complete Brochure</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fff;
+        }
+        
+        .brochure-container {
+            max-width: 210mm;
+            margin: 0 auto;
+            background: #fff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2E7D32, #4CAF50, #81C784);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="10" cy="60" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="40" r="0.5" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .company-name {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .tagline {
+            font-size: 1.2em;
+            font-weight: 300;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .contact-info {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 3px solid #4CAF50;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .contact-item i {
+            color: #4CAF50;
+            font-size: 1.2em;
+        }
+        
+        .section {
+            padding: 40px 20px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .section-title {
+            font-size: 1.8em;
+            color: #2E7D32;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #4CAF50, #81C784);
+            border-radius: 2px;
+        }
+        
+        .about-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .about-content p {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .package-card {
+            background: #fff;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .package-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4CAF50, #81C784);
+        }
+        
+        .package-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            border-color: #4CAF50;
+        }
+        
+        .package-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .package-icon {
+            font-size: 2.5em;
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+        
+        .package-name {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #2E7D32;
+            margin-bottom: 10px;
+        }
+        
+        .package-price {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+        
+        .package-plants {
+            margin-bottom: 20px;
+        }
+        
+        .package-plants h4 {
+            color: #555;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .plant-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .plant-tag {
+            background: #e8f5e8;
+            color: #2E7D32;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+        
+        .package-description {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .feature-card {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .feature-icon {
+            font-size: 2.5em;
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+        
+        .feature-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #2E7D32;
+            margin-bottom: 10px;
+        }
+        
+        .feature-description {
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .carbon-section {
+            background: linear-gradient(135deg, #e8f5e8, #f1f8e9);
+            padding: 40px 20px;
+        }
+        
+        .carbon-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .carbon-benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .carbon-benefit {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+        }
+        
+        .carbon-benefit h4 {
+            color: #2E7D32;
+            margin-bottom: 10px;
+        }
+        
+        .gallery-preview {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .gallery-item {
+            background: #f8f9fa;
+            height: 120px;
+            border-radius: 10px;
+            object-fit: cover;
+            width: 100%;
+            border: 2px solid #eee;
+        }
+        
+        .footer {
+            background: #2E7D32;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+        
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #4CAF50, #81C784);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(76, 175, 80, 0.3);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+        }
+        
+        .disclaimer {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            color: #856404;
+            font-size: 0.9em;
+        }
+        
+        @media print {
+            .brochure-container {
+                box-shadow: none;
+            }
+            
+            .package-card:hover {
+                transform: none;
+            }
+            
+            .cta-button:hover {
+                transform: none;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta name="color-scheme" content="light only">
+</head>
+<body>
+    <div class="brochure-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-seedling"></i>
+            </div>
+            <h1 class="company-name">Govindam Nursery</h1>
+            <p class="tagline">Bringing Green to Life</p>
+        </div>
+        
+        <!-- Contact Information -->
+        <div class="contact-info">
+            <h2>Get in Touch</h2>
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>+91 82900 38052</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>sgnd1997@gmail.com</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Shri Govindam Nursery and Farms, Dhodhsar, Jaipur, Rajasthan 303712</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-clock"></i>
+                    <span>Mon-Sat: 8AM-7PM</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- About Us -->
+        <div class="section">
+            <h2 class="section-title">About Shree Govindam Nursery and Farms</h2>
+            <div class="about-content">
+                <p>Welcome to Shree Govindam Nursery and Farms, your trusted partner in creating a greener, healthier world. We specialize in providing high-quality plants, trees, and comprehensive gardening solutions that transform spaces and contribute to environmental sustainability.</p>
+                <p>With years of experience and a passion for nature, we offer expert guidance, premium plant varieties, and innovative packages designed to meet every gardening need. Our commitment goes beyond selling plants – we're dedicated to helping you create thriving ecosystems that benefit both your home and our planet.</p>
+            </div>
+        </div>
+        
+        <!-- Our Packages -->
+        <div class="section">
+            <h2 class="section-title">Our Premium Packages</h2>
+            <div class="packages-grid">
+                <div class="package-card">
+                    <div class="package-header">
+                        <div class="package-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <h3 class="package-name">Home Garden Starter</h3>
+                        <div class="package-price">₹2,999</div>
+                    </div>
+                    <div class="package-plants">
+                        <h4>Includes:</h4>
+                        <div class="plant-list">
+                            <span class="plant-tag">Tulsi</span>
+                            <span class="plant-tag">Aloe Vera</span>
+                            <span class="plant-tag">Money Plant</span>
+                            <span class="plant-tag">Snake Plant</span>
+                            <span class="plant-tag">Peace Lily</span>
+                        </div>
+                    </div>
+                    <p class="package-description">Perfect for beginners, this package includes 5 essential indoor plants that purify air and bring positive energy to your home.</p>
+                </div>
+                
+                <div class="package-card">
+                    <div class="package-header">
+                        <div class="package-icon">
+                            <i class="fas fa-wind"></i>
+                        </div>
+                        <h3 class="package-name">Air Purifier Pack</h3>
+                        <div class="package-price">₹3,999</div>
+                    </div>
+                    <div class="package-plants">
+                        <h4>Includes:</h4>
+                        <div class="plant-list">
+                            <span class="plant-tag">Spider Plant</span>
+                            <span class="plant-tag">Bamboo Palm</span>
+                            <span class="plant-tag">English Ivy</span>
+                            <span class="plant-tag">Dracaena</span>
+                            <span class="plant-tag">Philodendron</span>
+                            <span class="plant-tag">Boston Fern</span>
+                        </div>
+                    </div>
+                    <p class="package-description">Advanced air purification with 6 scientifically-proven plants that remove toxins and improve indoor air quality significantly.</p>
+                </div>
+                
+                <div class="package-card">
+                    <div class="package-header">
+                        <div class="package-icon">
+                            <i class="fas fa-tree"></i>
+                        </div>
+                        <h3 class="package-name">Mini Orchard Starter</h3>
+                        <div class="package-price">₹4,699</div>
+                    </div>
+                    <div class="package-plants">
+                        <h4>Includes:</h4>
+                        <div class="plant-list">
+                            <span class="plant-tag">Mango</span>
+                            <span class="plant-tag">Guava</span>
+                            <span class="plant-tag">Jamun</span>
+                            <span class="plant-tag">Lemon</span>
+                            <span class="plant-tag">Pomegranate</span>
+                        </div>
+                    </div>
+                    <p class="package-description">Start your home orchard with diverse fruit varieties. Perfect for creating a sustainable food source in your backyard.</p>
+                </div>
+                
+                <div class="package-card">
+                    <div class="package-header">
+                        <div class="package-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h3 class="package-name">Medicinal Garden</h3>
+                        <div class="package-price">₹3,299</div>
+                    </div>
+                    <div class="package-plants">
+                        <h4>Includes:</h4>
+                        <div class="plant-list">
+                            <span class="plant-tag">Tulsi</span>
+                            <span class="plant-tag">Neem</span>
+                            <span class="plant-tag">Aloe Vera</span>
+                            <span class="plant-tag">Giloy</span>
+                            <span class="plant-tag">Ashwagandha</span>
+                        </div>
+                    </div>
+                    <p class="package-description">Traditional medicinal plants for natural healing and wellness. Each plant comes with care instructions and usage guidelines.</p>
+                </div>
+                
+                <div class="package-card">
+                    <div class="package-header">
+                        <div class="package-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h3 class="package-name">Customize Your Garden</h3>
+                        <div class="package-price">Starting ₹1,999</div>
+                    </div>
+                    <div class="package-plants">
+                        <h4>Choose from:</h4>
+                        <div class="plant-list">
+                            <span class="plant-tag">Indoor Plants</span>
+                            <span class="plant-tag">Outdoor Plants</span>
+                            <span class="plant-tag">Flowering Plants</span>
+                            <span class="plant-tag">Succulents</span>
+                            <span class="plant-tag">Herbs</span>
+                        </div>
+                    </div>
+                    <p class="package-description">Create your perfect garden with our expert consultation. We'll help you select the right plants for your space and needs.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Why Choose Us -->
+        <div class="section">
+            <h2 class="section-title">Why Choose Shree Govindam Nursery and Farms?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3 class="feature-title">Quality Assured</h3>
+                    <p class="feature-description">All our plants are carefully selected and nurtured to ensure the highest quality and survival rate.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3 class="feature-title">Delivery</h3>
+                    <p class="feature-description">Free delivery for bulk orders within a limited distance. Standard delivery available otherwise with careful handling.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3 class="feature-title">Expert Support</h3>
+                    <p class="feature-description">Our gardening experts are always available to provide guidance and answer your questions.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-recycle"></i>
+                    </div>
+                    <h3 class="feature-title">Eco-Friendly</h3>
+                    <p class="feature-description">We promote sustainable gardening practices and use eco-friendly packaging materials.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Carbon Offset & Environmental Impact -->
+        <div class="section carbon-section">
+            <h2 class="section-title">Environmental Impact & Carbon Offset</h2>
+            <div class="carbon-content">
+                <p style="text-align: center; margin-bottom: 30px; font-size: 1.1em; color: #2E7D32;">
+                    Every plant you grow contributes to a healthier planet. We help you track your environmental impact and provide carbon offset certificates.
+                </p>
+                
+                <div class="carbon-benefits">
+                    <div class="carbon-benefit">
+                        <h4>Air Purification</h4>
+                        <p>Plants naturally filter air pollutants and release oxygen, improving indoor and outdoor air quality.</p>
+                    </div>
+                    <div class="carbon-benefit">
+                        <h4>Carbon Absorption</h4>
+                        <p>Each plant absorbs CO2 and stores carbon, helping reduce your carbon footprint.</p>
+                    </div>
+                    <div class="carbon-benefit">
+                        <h4>Biodiversity</h4>
+                        <p>Creating green spaces supports local wildlife and promotes ecological balance.</p>
+                    </div>
+                    <div class="carbon-benefit">
+                        <h4>Climate Action</h4>
+                        <p>Your garden contributes to local climate regulation and global environmental goals.</p>
+                    </div>
+                </div>
+                
+                <div class="disclaimer">
+                    <strong>Note:</strong> Carbon offset calculations are approximations based on scientific research. Actual results may vary depending on plant species, growing conditions, and environmental factors.
+                </div>
+            </div>
+        </div>
+        
+        <!-- Gallery Preview -->
+        <div class="section">
+            <h2 class="section-title">Our Nursery Gallery</h2>
+            <div class="gallery-preview">
+                <p>Explore our beautiful nursery and see the variety of plants we offer. Visit our website for the complete gallery experience.</p>
+                <div class="gallery-grid">
+                    <img class="gallery-item" src="1000028576.jpg" alt="Premium Mango Trees">
+                    <img class="gallery-item" src="1000028564.jpg" alt="Medicinal Neem Plants">
+                    <img class="gallery-item" src="1000028570.jpg" alt="Sacred Tulsi Plants">
+                    <img class="gallery-item" src="1000028079.jpg" alt="Decorative Plants">
+                    <img class="gallery-item" src="1000028069.jpg" alt="Nursery Landscape">
+                    <img class="gallery-item" src="1000028072.jpg" alt="Garden Tools & Care">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Call to Action -->
+        <div class="section" style="text-align: center; background: #f8f9fa;">
+            <h2 class="section-title">Ready to Start Your Green Journey?</h2>
+            <p style="font-size: 1.2em; margin-bottom: 30px; color: #555;">
+                Join thousands of happy customers who have transformed their spaces with our plants. Start your gardening adventure today!
+            </p>
+            <a href="https://wa.me/918290038052" target="_blank" class="cta-button">WhatsApp Us Now</a>
+            <a href="mailto:sgnd1997@gmail.com" class="cta-button" style="background:#2E7D32;">Email Us</a>
+            <p style="margin-top: 20px; color: #666;">
+                Call us at +91 82900 38052 or message on WhatsApp
+            </p>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-content">
+                <h3>Shree Govindam Nursery and Farms</h3>
+                <p>Bringing Green to Life</p>
+                <p style="margin-top: 20px; opacity: 0.8;">
+                    <i class="fas fa-leaf"></i> Every plant counts in our mission to create a greener world
+                </p>
+                <p style="margin-top: 10px; font-size: 0.9em; opacity: 0.7;">
+                    &copy; 2025 Shree Govindam Nursery and Farms. All rights reserved.
+                </p>
+                <p style="margin-top: 10px;">
+                    <strong>Contact:</strong> +91 82900 38052 • <a href="mailto:sgnd1997@gmail.com" style="color:#fff; text-decoration:underline;">sgnd1997@gmail.com</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

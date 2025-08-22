@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Absorption & Offset - Shri Govindam Nursery and Farms</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/chatbot.css">
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <img src="assets/logo.svg" alt="Govindam Nursery Logo">
+            </div>
+            <div class="loading-title">Shri Govindam Nursery and Farms</div>
+            <div class="loading-subtitle">Bringing Green to Life</div>
+            <div class="loading-spinner">
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+            </div>
+            <div class="loading-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text">Loading...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Animation Elements -->
+    <div class="floating-elements">
+        <div class="leaf leaf-1"><i class="fas fa-leaf"></i></div>
+        <div class="leaf leaf-2"><i class="fas fa-leaf"></i></div>
+        <div class="leaf leaf-3"><i class="fas fa-leaf"></i></div>
+        <div class="butterfly butterfly-1"><i class="fas fa-bug"></i></div>
+        <div class="butterfly butterfly-2"><i class="fas fa-bug"></i></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="assets/logo.svg" alt="Govindam Nursery Logo">
+                <span>Shri Govindam Nursery and Farms</span>
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="gallery.html" class="nav-link">Gallery</a>
+                </li>
+                <li class="nav-item">
+                    <a href="packages.html" class="nav-link">Packages</a>
+                </li>
+                <li class="nav-item">
+                    <a href="carbon.html" class="nav-link active">Carbon Offset</a>
+                </li>
+                <li class="nav-item">
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </li>
+
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="header-content" data-aos="fade-up">
+                <h1 class="page-title">Carbon Absorption & Offset</h1>
+                <p class="page-subtitle">See how trees help the planet and calculate your yearly offsets</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Informational Section -->
+    <section class="carbon-info">
+        <div class="container">
+            <div class="info-grid">
+                <div class="info-card" data-aos="fade-right">
+                    <h3>How Plants Help the Planet</h3>
+                    <p>Trees absorb CO₂ during photosynthesis, storing carbon in their biomass and soil. Planting trees
+                        is a simple, natural way to reduce atmospheric carbon and improve air quality, biodiversity,
+                        and soil health.</p>
+                    <ul class="specialty-list">
+                        <li><i class="fas fa-cloud"></i> Improved air quality</li>
+                        <li><i class="fas fa-water"></i> Better soil and water retention</li>
+                        <li><i class="fas fa-dove"></i> Habitat for birds and pollinators</li>
+                        <li><i class="fas fa-temperature-low"></i> Local cooling and shade</li>
+                    </ul>
+                    
+                    <div class="carbon-benefits">
+                        <h4>Carbon Points & Environmental Impact</h4>
+                        <div class="benefit-grid">
+                            <div class="benefit-item">
+                                <i class="fas fa-chart-line"></i>
+                                <span><strong>Carbon Points:</strong> Each tree earns carbon credits based on growth rate and species</span>
+                            </div>
+                            <div class="benefit-item">
+                                <i class="fas fa-globe"></i>
+                                <span><strong>Global Impact:</strong> Trees contribute to international carbon reduction goals</span>
+                            </div>
+                            <div class="benefit-item">
+                                <i class="fas fa-certificate"></i>
+                                <span><strong>Verification:</strong> Our certificates are backed by scientific carbon calculations</span>
+                            </div>
+                            <div class="benefit-item">
+                                <i class="fas fa-recycle"></i>
+                                <span><strong>Sustainability:</strong> Long-term carbon storage in mature tree ecosystems</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Carbon Disclaimer -->
+                    <div class="carbon-disclaimer">
+                        <div class="disclaimer-header">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <h5>Note</h5>
+                        </div>
+                        <div class="disclaimer-content">
+                            <p><strong>Carbon estimates are approximations.</strong> Actual absorption may vary based on growing conditions, climate, and care practices.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-card" data-aos="fade-left">
+                    <h3>Average Yearly Carbon Absorption</h3>
+                    <div class="absorption-list" id="absorptionList">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certificate Information Section -->
+    <section class="offset-section">
+        <div class="container">
+            <div class="offset-card" data-aos="fade-up">
+                <h3>Carbon Offset Certificate</h3>
+                <p>View a sample of our carbon offset certificate. <a href="sample_certificate.html" target="_blank" style="color: #4a7c59; text-decoration: underline;">View Sample Certificate</a></p>
+                <p class="certificate-note">💡 <strong>Certificate Delivery:</strong> If you can't download the certificate, we'll email it to you within 30 days of purchase. Just provide your email address in the inquiry.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Multi-Plant Calculator Section -->
+    <section class="offset-section">
+        <div class="container">
+            <div class="offset-card" data-aos="fade-up">
+                <h3>Calculate For Multiple Plants</h3>
+                <p>Add multiple plant rows to estimate total carbon absorption for your plan.</p>
+                <form class="offset-form" id="multiCalcForm">
+                    <div id="multiRows"></div>
+                    <div class="form-row" style="margin-top: .5rem">
+                        <button type="button" class="btn btn-secondary" id="addRowBtn"><i class="fas fa-plus"></i> Add Plant</button>
+                        <div style="flex:1"></div>
+                        <div class="result" id="multiTotal"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certificate Section -->
+    <section class="certificate-section">
+        <div class="container">
+            <div class="certificate-card" id="certificateCard" style="display:none" data-aos="zoom-in">
+                <div class="certificate-header">
+                    <img src="assets/logo.svg" alt="Govindam Nursery Logo">
+                    <h2>Shri Govindam Nursery and Farms</h2>
+                    <h3>Carbon Offset Certificate</h3>
+                </div>
+                <div class="certificate-body" id="certificateBody">
+                    <!-- populated by JS -->
+                </div>
+                <div class="certificate-footer">
+                    <div class="signatures">
+                        <div class="sig-line">
+                            <span>Authorized Signatory</span>
+                        </div>
+                        <div class="sig-line">
+                            <span>Customer Signature</span>
+                        </div>
+                    </div>
+                    <button id="downloadCertificate" class="btn btn-secondary">
+                        <i class="fas fa-download"></i>
+                        Download as Image
+                    </button>
+                    <button id="printCertificate" class="btn btn-primary">
+                        <i class="fas fa-file-pdf"></i>
+                        Print / Save PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="assets/logo.svg" alt="Govindam Nursery">
+                        <span>Shri Govindam Nursery and Farms</span>
+                    </div>
+                    <p>Bringing Green to Life - One Tree at a Time!</p>
+                    <div class="social-links">
+                        <a href="https://wa.me/918290038052" class="social-link" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://www.instagram.com/shrigovindamnursery?igsh=Mzg2dTV4amVjdTMx" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://x.com/DhodhsarSh75198?t=9Ieh8o9FsUQofdTCNlZCNA&s=09" class="social-link" target="_blank"><i
+                                class="fab fa-twitter"></i></a>
+                        <a href="https://www.facebook.com/GovindamNursery" class="social-link" target="_blank"><i class="fab fa-facebook"></i></a>
+                    </div>
+                    <div class="social-placeholder">
+                        <span>Follow us:</span>
+                        <a href="#" title="Instagram">Instagram</a>
+                        <a href="#" title="Facebook">Facebook</a>
+                        <a href="#" title="X">X</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="packages.html">Packages</a></li>
+                        <li><a href="carbon.html">Carbon Offset</a></li>
+                        <li><a href="index.html#about">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Shri Govindam Nursery and Farms
+                            Dhodhsar, Jaipur, Rajasthan 303712
+                            India</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+91 82900 38052</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>sgnd1997@gmail.com</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="carbon-disclaimer">
+                    <p><i class="fas fa-exclamation-triangle"></i> <strong>Note:</strong> Carbon offset calculations are approximations based on scientific research. Actual results may vary.</p>
+                </div>
+                <p>&copy; 2025 Shri Govindam Nursery and Farms. All rights reserved. | Designed with <i class="fas fa-heart"></i> for
+                    nature lovers</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="js/carbon.js"></script>
+    <script src="js/chatbot.js"></script>
+</body>
+
+</html>
+
