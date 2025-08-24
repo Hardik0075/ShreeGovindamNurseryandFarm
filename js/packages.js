@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
             id: 'fruit_combo',
             name: 'Fruit Lovers Combo',
             icon: 'fa-apple-whole',
-            plants: ['Mango', 'Guava', 'Pomegranate', 'Orange', 'Lichi'],
+            plants: ['Mango', 'Guava', 'Sitafal', 'Pomegranate', 'Orange', 'Lichi'],
             totalPlants: 10,
             priceINR: 3499,
             value: 'Save ~20% vs buying individually. Year-round fruit variety.'
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
             id: 'orchard_starter_combo',
             name: 'Mini Orchard Starter',
             icon: 'fa-tree',
-            plants: ['Mango', 'Guava', 'Jamun', 'Lemon', 'Pomegranate', 'Chikoo', 'Orange', 'Aonla (Amla)'],
+            plants: ['Mango', 'Guava', 'Sitafal', 'Jamun', 'Lemon', 'Pomegranate', 'Chikoo', 'Orange', 'Aonla (Amla)'],
             totalPlants: 15,
             priceINR: 4699,
             value: 'Start your home orchard with diverse fruit varieties.'

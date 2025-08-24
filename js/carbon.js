@@ -3,7 +3,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const plants = {
         // Fruit Trees
-        Mango: 22, Guava: 20, Pomegranate: 19, Orange: 18, Plum: 17, Peach: 18, Pear: 19, Lichi: 21, StarFruit: 16, Jackfruit: 25, Chikoo: 18, Lemon: 15, Mosambi: 16, Jamun: 24, Anjeer: 20, Phalsa: 14,
+        Mango: 22, Guava: 20, Pomegranate: 19, Orange: 18, Plum: 17, Peach: 18, Pear: 19, Lichi: 21, StarFruit: 16, Jackfruit: 25, Chikoo: 18, Sitafal: 16, Lemon: 15, Mosambi: 16, Jamun: 24, Anjeer: 20, Phalsa: 14,
         // Palm Trees
         FoxtailPalm: 18, FishtailPalm: 16, ChinesePalm: 17, ChampionPalm: 19, PhoenixPalm: 20, BottlePalm: 16,
         // Ornamental Trees
