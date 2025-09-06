@@ -2238,9 +2238,9 @@ img {
 }
 
 /* Enhanced mobile responsiveness improvements */
-@media (max-width: 360px) {
+@media (max-width: 768px) {
     .container {
-        padding: 0 10px;
+        padding: 0 20px;
     }
 
     .hero-content h1 {
@@ -2342,6 +2342,126 @@ img {
 
     .about-grid {
         grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Reviews Section Styles */
+.reviews-section {
+    padding: 80px 0;
+    background: var(--soft-cream);
+}
+
+.reviews-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin: 3rem 0;
+}
+
+.review-card {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: var(--border-radius-large);
+    box-shadow: 0 4px 20px var(--shadow-light);
+    transition: var(--transition-smooth);
+    border-left: 4px solid var(--primary-green);
+}
+
+.review-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px var(--shadow-medium);
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+}
+
+.reviewer-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.reviewer-avatar {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: 1.5rem;
+}
+
+.reviewer-details h4 {
+    color: var(--primary-green);
+    margin-bottom: 0.25rem;
+    font-size: 1.1rem;
+}
+
+.review-time {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.review-stars {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.review-stars i {
+    color: #ffd700;
+    font-size: 1.1rem;
+}
+
+.review-content p {
+    color: var(--text-dark);
+    font-style: italic;
+    line-height: 1.7;
+    font-size: 1rem;
+}
+
+.reviews-cta {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.reviews-note {
+    margin-top: 1rem;
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+/* Mobile responsiveness for reviews */
+@media (min-width: 768px) {
+    .reviews-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2.5rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .reviews-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .review-card {
+        padding: 2.5rem;
+    }
+}
+
+/* Hide loading screen on mobile devices */
+@media (max-width: 768px) {
+    .loading-screen {
+        display: none !important;
+    }
+    
+    body {
+        overflow-x: hidden;
     }
 }
 
