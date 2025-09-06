@@ -1614,7 +1614,17 @@ img {
 .offset-form .result { margin: 1rem 0; font-weight: 600; color: var(--primary-green); }
 
 .certificate-section { padding: 60px 0; background: var(--white); }
-.certificate-card { background: linear-gradient(180deg, #f6fbf7, #ffffff); border: 2px solid var(--accent-green); border-radius: 16px; box-shadow: 0 10px 30px var(--shadow-light); padding: 2rem; max-width: 800px; margin: 0 auto; }
+.certificate-card { 
+    background: linear-gradient(180deg, #f6fbf7, #ffffff); 
+    border: 2px solid var(--accent-green); 
+    border-radius: 16px; 
+    box-shadow: 0 10px 30px var(--shadow-light); 
+    padding: 2rem; 
+    max-width: 800px; 
+    margin: 0 auto; 
+    width: 100%;
+    overflow-x: auto;
+}
 .certificate-header { text-align: center; margin-bottom: 1rem; }
 .certificate-header img { width: 64px; height: 64px; }
 .certificate-header h2 { margin: .5rem 0 0; color: var(--primary-green); }
@@ -1633,7 +1643,40 @@ img {
 @media (max-width: 768px) {
     .info-grid { grid-template-columns: 1fr; }
     .offset-form .form-row { grid-template-columns: 1fr; }
-    .certificate-footer { flex-direction: column; align-items: stretch; }
+    .certificate-card {
+        padding: 1rem;
+        margin: 0 1rem;
+        max-width: calc(100% - 2rem);
+    }
+    .certificate-header h2 {
+        font-size: 1.5rem;
+    }
+    .certificate-header h3 {
+        font-size: 1.2rem;
+    }
+    .cert-name {
+        font-size: 1.4rem;
+    }
+    .cert-offset {
+        font-size: 1.2rem;
+    }
+    .certificate-footer { 
+        flex-direction: column; 
+        align-items: stretch;
+        gap: 1rem;
+    }
+    .signatures {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+    }
+    .sig-line {
+        width: 180px;
+    }
+    .certificate-footer .btn {
+        width: 100%;
+        margin: 0.5rem 0;
+    }
 }
 
 /* Responsive Design */
@@ -2238,9 +2281,9 @@ img {
 }
 
 /* Enhanced mobile responsiveness improvements */
-@media (max-width: 360px) {
+@media (max-width: 768px) {
     .container {
-        padding: 0 10px;
+        padding: 0 20px;
     }
 
     .hero-content h1 {
@@ -2342,6 +2385,126 @@ img {
 
     .about-grid {
         grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Reviews Section Styles */
+.reviews-section {
+    padding: 80px 0;
+    background: var(--soft-cream);
+}
+
+.reviews-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin: 3rem 0;
+}
+
+.review-card {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: var(--border-radius-large);
+    box-shadow: 0 4px 20px var(--shadow-light);
+    transition: var(--transition-smooth);
+    border-left: 4px solid var(--primary-green);
+}
+
+.review-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px var(--shadow-medium);
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+}
+
+.reviewer-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.reviewer-avatar {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: 1.5rem;
+}
+
+.reviewer-details h4 {
+    color: var(--primary-green);
+    margin-bottom: 0.25rem;
+    font-size: 1.1rem;
+}
+
+.review-time {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.review-stars {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.review-stars i {
+    color: #ffd700;
+    font-size: 1.1rem;
+}
+
+.review-content p {
+    color: var(--text-dark);
+    font-style: italic;
+    line-height: 1.7;
+    font-size: 1rem;
+}
+
+.reviews-cta {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.reviews-note {
+    margin-top: 1rem;
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+/* Mobile responsiveness for reviews */
+@media (min-width: 768px) {
+    .reviews-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2.5rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .reviews-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .review-card {
+        padding: 2.5rem;
+    }
+}
+
+/* Hide loading screen on mobile devices */
+@media (max-width: 768px) {
+    .loading-screen {
+        display: none !important;
+    }
+    
+    body {
+        overflow-x: hidden;
     }
 }
 
