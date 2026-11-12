@@ -1,0 +1,294 @@
+{
+  "nursery": {
+    "name": "Shri Govindam Nursery and Farms",
+    "location": "Dhodhsar, Jaipur, Rajasthan 303712, India",
+    "coordinates": "26.9124, 75.7873",
+    "establishedYear": 1997,
+    "experience": "Over 25+ years of horticultural experience",
+    "tagline": "Bringing Green to Life - One Tree at a Time!",
+    "website": "https://shrigovindamnurseryandfarms.netlify.app/",
+    "contact": {
+      "phone": "+91 97725 85880",
+      "whatsapp": "+91 97725 85880",
+      "whatsappUrl": "https://wa.me/919772585880",
+      "email": "sgnd1997@gmail.com",
+      "hours": "Daily 24 x 7"
+    },
+    "services": [
+      "Premium Fruit Trees and Orchard Setup",
+      "Medicinal & Ayurvedic Plant Consultation",
+      "Decorative & Landscape Plants",
+      "Carbon Offset Certification",
+      "Soil Quality Testing & Pre-Planting Assessment",
+      "Bulk Commercial Orchard Plantations",
+      "Home Delivery in Jaipur Region (selected plants)"
+    ]
+  },
+  "categories": {
+    "Fruit Trees": {
+      "description": "High-yielding, premium grafted fruit plants suitable for home gardens and commercial orchards in Rajasthan and Northern India.",
+      "plants": [
+        {
+          "name": "Mango (Aam)",
+          "varieties": ["Amrapali", "Chausa", "Langra", "Kesar", "Dasheri"],
+          "sunlight": "Full sun (6-8 hours daily)",
+          "watering": "Regular watering when young, drought tolerant when mature",
+          "soil": "Deep, well-draining rich loam soil",
+          "carbonAbsorptionKgPerYear": 22,
+          "careTips": "Provide staking when sapling is young. Protect from winter frost in early years."
+        },
+        {
+          "name": "Guava (Amrood)",
+          "varieties": ["Allahabad Safeda", "L-49 (Lucknow 49)", "VNR Bihi"],
+          "sunlight": "Full sun",
+          "watering": "Moderate watering; avoid waterlogging",
+          "soil": "Adaptable to various soils, prefers well-drained loam",
+          "carbonAbsorptionKgPerYear": 20,
+          "careTips": "Prune lightly after fruiting to promote new shoots and higher yield."
+        },
+        {
+          "name": "Pomegranate (Anaar)",
+          "varieties": ["Bhagwa", "Ganesh", "Arakta"],
+          "sunlight": "Full sun, heat tolerant",
+          "watering": "Drought tolerant, moderate watering during flowering & fruit set",
+          "soil": "Well-drained sandy loam",
+          "carbonAbsorptionKgPerYear": 19,
+          "careTips": "Ideal for semi-arid Rajasthan climate. Ensure good drainage."
+        },
+        {
+          "name": "Aonla / Amla (Indian Gooseberry)",
+          "varieties": ["Chakaiya", "NA-7", "Kanchan"],
+          "sunlight": "Full sun",
+          "watering": "Low to moderate, highly drought resilient",
+          "soil": "Light to medium soil, tolerates sodic & alkaline soils",
+          "carbonAbsorptionKgPerYear": 18,
+          "careTips": "Extremely hardy plant with very high medicinal value and vitamin C."
+        },
+        {
+          "name": "Sitafal (Custard Apple)",
+          "varieties": ["Balanagar", "NMk-1 Golden"],
+          "sunlight": "Full sun",
+          "watering": "Minimal watering, drought resistant",
+          "soil": "Rocky, sandy, or light well-draining soil",
+          "carbonAbsorptionKgPerYear": 16,
+          "careTips": "Excellent low-maintenance fruit tree for dry climates."
+        },
+        {
+          "name": "Chikoo (Sapodilla)",
+          "varieties": ["Kalipatti", "Cricket Ball"],
+          "sunlight": "Full sun",
+          "watering": "Regular moderate watering",
+          "soil": "Deep alluvium or sandy loam",
+          "carbonAbsorptionKgPerYear": 18,
+          "careTips": "Evergreen tree providing delicious year-round fruit."
+        },
+        {
+          "name": "Lemon (Nimbu)",
+          "varieties": ["Kagzi Lemon", "Seedless Lemon"],
+          "sunlight": "Full sun (minimum 5-6 hours)",
+          "watering": "Regular watering; keep soil moist but never waterlogged",
+          "soil": "Well-draining, slightly acidic to neutral soil",
+          "carbonAbsorptionKgPerYear": 15,
+          "careTips": "Feed with citrus fertilizer or organic compost every 2-3 months."
+        },
+        {
+          "name": "Jamun (Black Plum)",
+          "varieties": ["Desi Jamun", "Grafted Jamun"],
+          "sunlight": "Full sun",
+          "watering": "Moist soil, regular watering",
+          "soil": "Deep, well-draining fertile soil",
+          "carbonAbsorptionKgPerYear": 24,
+          "careTips": "Fast-growing shade and fruit tree with proven diabetic health benefits."
+        }
+      ]
+    },
+    "Medicinal Plants": {
+      "description": "Traditional Ayurvedic and healing herbs essential for home gardens, health, and natural pest repellent.",
+      "plants": [
+        {
+          "name": "Neem",
+          "sunlight": "Full sun",
+          "watering": "Low watering once established, drought tolerant",
+          "soil": "Any well-drained soil",
+          "carbonAbsorptionKgPerYear": 26,
+          "benefits": "Air purification, natural antibacterial, organic pesticide, dental health."
+        },
+        {
+          "name": "Tulsi (Holy Basil)",
+          "varieties": ["Rama Tulsi", "Shyama/Krishna Tulsi"],
+          "sunlight": "Bright sunlight (4-6 hours)",
+          "watering": "Moderate watering, water when topsoil feels dry",
+          "soil": "Fertile, well-draining potting mix",
+          "carbonAbsorptionKgPerYear": 6,
+          "benefits": "Sacred spiritual value, boosts immunity, treats cough and cold."
+        },
+        {
+          "name": "Arjun (Terminalia arjuna)",
+          "sunlight": "Full sun",
+          "watering": "Regular watering until mature",
+          "soil": "Fertile, moist alluvial soil",
+          "carbonAbsorptionKgPerYear": 24,
+          "benefits": "Ayurvedic cardiovascular tonic, bark used for heart health."
+        },
+        {
+          "name": "Bel Patra (Aegle marmelos)",
+          "sunlight": "Full sun",
+          "watering": "Low to moderate watering",
+          "soil": "Hardy, thrives in poor or stony soils",
+          "carbonAbsorptionKgPerYear": 18,
+          "benefits": "Sacred to Lord Shiva, digestive benefits, cooling medicinal properties."
+        },
+        {
+          "name": "Moringa (Sahjan / Drumstick)",
+          "sunlight": "Full sun",
+          "watering": "Minimal water, hates waterlogging",
+          "soil": "Sandy or loamy well-drained soil",
+          "carbonAbsorptionKgPerYear": 18,
+          "benefits": "Superfood rich in protein, iron, and calcium. Rapid growth."
+        },
+        {
+          "name": "Aloe Vera",
+          "sunlight": "Bright indirect light to partial sun",
+          "watering": "Very low, water only when soil is completely dry",
+          "soil": "Cactus or succulent gritty potting mix",
+          "carbonAbsorptionKgPerYear": 6,
+          "benefits": "Skin healing, digestion, soothing burns."
+        }
+      ]
+    },
+    "Decorative & Indoor Plants": {
+      "description": "Aesthetic ornamental plants, foliage, and NASA-recognized air-purifying plants for homes, patios, and offices.",
+      "plants": [
+        {
+          "name": "Money Plant (Epipremnum aureum)",
+          "sunlight": "Indirect bright light, tolerates low light",
+          "watering": "Moderate watering once a week",
+          "soil": "Rich, well-aerated potting soil or water container",
+          "carbonAbsorptionKgPerYear": 12,
+          "benefits": "Air purifying, easy to propagate, aesthetic trailing foliage."
+        },
+        {
+          "name": "Ficus (Weeping Fig / Rubber Plant)",
+          "sunlight": "Bright indirect sunlight",
+          "watering": "Moderate; let top inch dry between watering",
+          "soil": "Well-draining indoor potting mix",
+          "carbonAbsorptionKgPerYear": 23,
+          "benefits": "Excellent indoor air filter and decorative statement plant."
+        },
+        {
+          "name": "Areca Palm / Bamboo Palm",
+          "sunlight": "Filtered sunlight or bright shade",
+          "watering": "Keep soil lightly moist in summer",
+          "soil": "Rich, peat-based potting soil",
+          "carbonAbsorptionKgPerYear": 18,
+          "benefits": "Adds tropical elegance, acts as natural humidifier and toxin filter."
+        },
+        {
+          "name": "Snake Plant (Sansevieria)",
+          "sunlight": "Any light condition (low to bright sun)",
+          "watering": "Low watering every 2-3 weeks",
+          "soil": "Gritty, fast-draining soil",
+          "carbonAbsorptionKgPerYear": 8,
+          "benefits": "Releases oxygen at night, virtually indestructible, NASA air purifier."
+        }
+      ]
+    },
+    "Flowering Plants": {
+      "description": "Fragrant and vibrant blooming plants perfect for gardens, balconies, and worship.",
+      "plants": [
+        { "name": "Mogra (Arabian Jasmine)", "sunlight": "Morning sun, partial afternoon shade", "care": "Regular watering and pruning after blooms", "fragrance": "Intense, sweet night fragrance" },
+        { "name": "Rose (Gulab)", "sunlight": "Full sun (6+ hours)", "care": "Rich organic compost and regular deadheading", "fragrance": "Mild to strong classic scent" },
+        { "name": "Ratrani (Night Blooming Jasmine)", "sunlight": "Partial shade to full sun", "care": "Moderate watering, well-draining soil", "fragrance": "Super fragrant night flowers" },
+        { "name": "Bougainvillea", "sunlight": "Full intense sun", "care": "Low water once established, drought tolerant", "fragrance": "Vibrant colorful bracts year-round" },
+        { "name": "Champa (Plumeria)", "sunlight": "Full sun", "care": "Low water, highly drought hardy", "fragrance": "Sacred, exotic sweet perfume" }
+      ]
+    },
+    "Timber & Fast-Growing Trees": {
+      "description": "Commercial timber, rapid shade trees, and carbon sequestration champions.",
+      "plants": [
+        { "name": "Sagwan (Teak)", "carbonAbsorptionKgPerYear": 30, "purpose": "High-value commercial timber" },
+        { "name": "Poplar", "carbonAbsorptionKgPerYear": 25, "purpose": "Fast-growing agroforestry & boundary plantation" },
+        { "name": "Eucalyptus", "carbonAbsorptionKgPerYear": 22, "purpose": "Rapid growth, windbreak, commercial poles" },
+        { "name": "Silver Oak", "carbonAbsorptionKgPerYear": 26, "purpose": "Quick shade, windbreak, aesthetic silver-tint foliage" }
+      ]
+    }
+  },
+  "comboPackages": [
+    {
+      "id": "fruit_combo",
+      "name": "Fruit Lovers Combo",
+      "priceINR": 3499,
+      "totalPlants": 10,
+      "plants": ["Mango", "Guava", "Sitafal", "Pomegranate", "Orange", "Lichi"],
+      "description": "Curated selection for year-round fresh home fruits. Saves ~20% vs buying individually."
+    },
+    {
+      "id": "fast_grow_combo",
+      "name": "Fast-Growing Green Wall",
+      "priceINR": 3999,
+      "totalPlants": 20,
+      "plants": ["Neem", "Poplar", "Eucalyptus", "Moringa", "Arjun"],
+      "description": "Quick shade, privacy hedge, and windbreak in a single growing season."
+    },
+    {
+      "id": "decor_combo",
+      "name": "Decorative Paradise",
+      "priceINR": 2999,
+      "totalPlants": 12,
+      "plants": ["Ficus", "Money Plant", "Ashok", "Bottle Brush", "Silver Oak"],
+      "description": "Instant landscape and aesthetic makeover for villas, bungalows, and lawns."
+    },
+    {
+      "id": "air_purifier_combo",
+      "name": "Air Purifier Pack (HOT)",
+      "priceINR": 3999,
+      "totalPlants": 12,
+      "plants": ["Spider Plant", "Bamboo Palm", "English Ivy", "Dracaena", "Philodendron", "Boston Fern", "Peace Lily", "Snake Plant"],
+      "description": "Scientifically proven NASA air-purifying indoor plants removing toxins and improving oxygen."
+    },
+    {
+      "id": "holy_garden_combo",
+      "name": "Sacred & Medicinal Garden",
+      "priceINR": 3799,
+      "totalPlants": 10,
+      "plants": ["Tulsi", "Aonla (Amla)", "Bel Patra", "Ashok", "Chandan", "Giloy", "Aloe Vera", "Neem", "Arjun", "Ashwagandha"],
+      "description": "Traditional Ayurvedic herbs and sacred trees for spiritual well-being and natural health."
+    },
+    {
+      "id": "bulk_orchard_combo",
+      "name": "Bulk Commercial Orchard Package",
+      "priceINR": 1125000,
+      "totalPlants": 500,
+      "plants": ["Aonla Chakaiya", "Mango Amrapali", "Chikoo Kalipatti", "Lemon Kagzi", "Mosambi New Seller"],
+      "description": "Commercial orchard package (minimum 500 plants) with 3-year care & agronomy guidance."
+    }
+  ],
+  "frequentlyAskedQuestions": [
+    {
+      "question": "Where is Shri Govindam Nursery located?",
+      "answer": "We are located at Dhodhsar, Jaipur, Rajasthan 303712, India. Visitors are welcome anytime as we are open 24x7."
+    },
+    {
+      "question": "Do you provide plant home delivery in Jaipur?",
+      "answer": "Yes, we provide home delivery for selected plants across Jaipur. For bulk or large tree transportation, please contact us on WhatsApp (+91 97725 85880) for arrangements."
+    },
+    {
+      "question": "How do I check exact plant prices and current stock?",
+      "answer": "Individual plant prices depend on sapling age, height, and bag size. Please message our nursery team on WhatsApp (+91 97725 85880) with your plant list for verified current prices and availability."
+    },
+    {
+      "question": "What is the Carbon Offset Certificate?",
+      "answer": "Our Carbon Offset program scientifically calculates the annual CO2 absorbed by the trees you plant. You can calculate your offset on our Carbon page and generate a branded certificate upon verified order confirmation."
+    },
+    {
+      "question": "Do you test soil before planting?",
+      "answer": "Yes, our team can assess soil and water quality for farms and large orchards to recommend plant varieties best suited to your soil pH and salinity."
+    }
+  ],
+  "botRules": {
+    "pricingPolicy": "Never guess or invent prices for individual plants. Direct the customer to WhatsApp (+91 97725 85880) for real-time rates and bulk discounts.",
+    "availabilityPolicy": "Never guarantee real-time stock without WhatsApp confirmation.",
+    "deliveryPolicy": "Home delivery is available in Jaipur for selected plants; commercial delivery is coordinated via WhatsApp."
+  }
+}
+

@@ -21,8 +21,9 @@
     box-shadow: 0 8px 30px rgba(74, 124, 89, 0.4), 0 4px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
-    overflow: hidden;
+
     border: 3px solid rgba(255, 255, 255, 0.2);
+    overflow: visible !important;
 }
 
 .chatbot-toggle::before {
@@ -75,18 +76,19 @@
 
 .chatbot-badge {
     position: absolute;
-    top: -5px;
-    right: -5px;
+    top: -4px;
+    right: -6px;
     background: linear-gradient(135deg, #ff4757, #ff3742);
     color: white;
     font-size: 11px;
+    white-space: nowrap;
     padding: 4px 8px;
     border-radius: 12px;
     font-weight: 700;
     animation: pulse 2s infinite;
     box-shadow: 0 2px 8px rgba(255, 71, 87, 0.4);
     border: 2px solid white;
-    z-index: 3;
+    z-index: 10;
 }
 
 @keyframes pulse {
@@ -128,6 +130,8 @@
     border-radius: 20px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
     overflow: hidden;
+
+
     animation: slideUp 0.3s ease;
 }
 
@@ -418,6 +422,7 @@
 
     .quick-btn {
         font-size: 11px;
+    white-space: nowrap;
         padding: 6px 10px;
     }
 }
@@ -650,5 +655,80 @@
     .quick-btn:hover {
         background: #4a7c59;
         color: white;
+    }
+}
+
+
+/* In-Chat WhatsApp Action Buttons & Rich Formatting */
+.chat-whatsapp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #25d366;
+    color: white !important;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    margin-top: 8px;
+    box-shadow: 0 3px 10px rgba(37, 211, 102, 0.35);
+    transition: all 0.3s ease;
+}
+
+.chat-whatsapp-btn:hover {
+    background: #20ba59;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(37, 211, 102, 0.5);
+    color: white !important;
+}
+
+.chat-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.chat-header-wa {
+    color: white;
+    font-size: 16px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(37, 211, 102, 0.35);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.chat-header-wa:hover {
+    background: #25d366;
+    transform: scale(1.1);
+}
+
+.chatbot-message ul {
+    margin: 6px 0;
+    padding-left: 18px;
+}
+
+.chatbot-message li {
+    margin-bottom: 4px;
+}
+
+.chatbot-message strong {
+    color: var(--primary-green);
+    font-weight: 600;
+}
+
+.chatbot-message.user strong {
+    color: white;
+}
+
+
+@media (prefers-color-scheme: dark) {
+    .chatbot-message strong {
+        color: #81c784 !important;
     }
 }

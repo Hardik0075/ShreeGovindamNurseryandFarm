@@ -290,13 +290,14 @@ function submitContactForm(data) {
     
     // Fire WhatsApp and Email intents
     try {
-        const phoneForWa = '918290038052';
+        const phoneForWa = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG.whatsapp) ? SITE_CONFIG.whatsapp.number : '919772585880';
+        const emailTo = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG.contact) ? SITE_CONFIG.contact.email : 'sgnd1997@gmail.com';
         const waText = encodeURIComponent(`New Contact Inquiry\nName: ${data.name}\nEmail: ${data.email}\nPhone: ${data.phone || ''}\nSubject: ${data.subject}\nMessage: ${data.message}`);
         window.open(`https://wa.me/${phoneForWa}?text=${waText}`, '_blank');
         const mailSubject = encodeURIComponent(`Website Contact: ${data.subject}`);
         const mailBody = waText;
         const mailLink = document.createElement('a');
-        mailLink.href = `mailto:sgnd1997@gmail.com?subject=${mailSubject}&body=${mailBody}`;
+        mailLink.href = `mailto:${emailTo}?subject=${mailSubject}&body=${mailBody}`;
         document.body.appendChild(mailLink);
         mailLink.click();
         document.body.removeChild(mailLink);

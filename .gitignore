@@ -1,0 +1,18 @@
+# Dependencies & Environments
+node_modules/
+.env
+.env.*
+!.env.example
+
+# Cloudflare & Build tools
+.wrangler/
+dist/
+.netlify/
+
+# Operating System & IDE Artifacts
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/
+
