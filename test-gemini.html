@@ -165,24 +165,65 @@
 <body>
     <div class="container">
         <div class="card">
-            <h1><i class="fas fa-sparkles"></i> Gemini Interactions API & Model Tester</h1>
-            <p class="subtitle">Direct browser test suite for Google's new <code>client.interactions.create</code> endpoint (<code>gemini-3.8-flash</code>) and legacy <code>generateContent</code> endpoints.</p>
+            <h1><i class="fas fa-sparkles"></i> Govindam AI Engine Diagnostic Suite (Groq + Gemini)</h1>
+            <p class="subtitle">Direct browser test suite for <strong>Groq (Llama 3.3 70B)</strong>, <strong>Google Gemini (3.8 Flash)</strong>, and the <strong>Cloudflare Parallel Race Worker</strong>.</p>
 
             <div class="highlight-box">
-                <strong><i class="fas fa-check-circle"></i> Identified API Spec:</strong> Google Gen AI SDK uses the <strong>Interactions API</strong> at <code>POST /v1beta/interactions</code> with <code>model="gemini-3.8-flash"</code>. Test both below!
+                <strong><i class="fas fa-bolt"></i> Dual Engine Architecture:</strong> Test Groq directly (answers in ~0.35s!), test Gemini directly, or test your deployed Cloudflare Worker to verify which engine wins the parallel race!
             </div>
 
-            <div class="form-group">
-                <label for="directKey">Google Gemini API Key (starts with AIzaSy...):</label>
-                <input type="text" id="directKey" placeholder="Paste your API key here" autocomplete="off">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                <div class="form-group">
+                    <label for="directKey">Google Gemini API Key:</label>
+                    <input type="text" id="directKey" placeholder="Paste your Gemini key here (AIzaSy...)" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="groqKey">Groq Cloud API Key:</label>
+                    <input type="text" id="groqKey" placeholder="Paste your Groq key here (gsk_...)" autocomplete="off">
+                </div>
             </div>
+        </div>
+
+        <!-- Section 0: Groq Cloud API Test (Llama 3.3 70B - Lightning Fast) -->
+        <div class="card" style="border: 2px solid #f55036;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h2 style="color: #f55036; margin-bottom: 0;">
+                    <i class="fas fa-bolt"></i> 1. Groq Cloud API (Llama 3.3 70B & 3.1 8B)
+                </h2>
+                <span class="badge" style="background: #ffe3df; color: #f55036; font-weight: 700;">Ultra-Fast LPU Engine (~0.35s)</span>
+            </div>
+            <p class="subtitle">Direct browser test to <code>https://api.groq.com/openai/v1/chat/completions</code>. Demonstrates instant token streaming!</p>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                <div class="form-group">
+                    <label for="groqModel">Groq Model:</label>
+                    <select id="groqModel">
+                        <option value="llama-3.3-70b-versatile" selected>llama-3.3-70b-versatile (Recommended)</option>
+                        <option value="llama-3.1-8b-instant">llama-3.1-8b-instant (Fastest ~0.2s)</option>
+                        <option value="mixtral-8x7b-32768">mixtral-8x7b-32768</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="groqPrompt">Input Prompt:</label>
+                    <input type="text" id="groqPrompt" value="I am looking for 2 or 3 small plants for my office desk, any suggestions?">
+                </div>
+            </div>
+
+            <div class="btn-row">
+                <button class="btn" style="background: #f55036;" id="btnTestGroq" onclick="testGroqAPI()">
+                    <i class="fas fa-play"></i> Test Groq Directly (api.groq.com)
+                </button>
+            </div>
+
+            <div id="groqStatusBadge" style="margin-top: 16px;"></div>
+            <div id="groqResult" class="result-box"></div>
         </div>
 
         <!-- Section 1: Google Interactions API (gemini-3.8-flash) -->
         <div class="card" style="border: 2px solid #2b6cb0;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                 <h2 style="color: #2b6cb0; margin-bottom: 0;">
-                    <i class="fas fa-bolt"></i> 1. Google Interactions API (POST /v1beta/interactions)
+                    <i class="fas fa-bolt"></i> 2. Google Interactions API (POST /v1beta/interactions)
                 </h2>
                 <span class="badge badge-info">Latest 2026 Endpoint</span>
             </div>
@@ -297,6 +338,76 @@
         function getCleanApiKey() {
             const rawKey = document.getElementById('directKey').value.trim();
             return rawKey.replace(/^GEMINI_API_KEY\s*=\s*/i, '').replace(/^["']|["']$/g, '').trim();
+        }
+
+        function getCleanGroqKey() {
+            const rawKey = document.getElementById('groqKey').value.trim();
+            return rawKey.replace(/^GROQ_API_KEY\s*=\s*/i, '').replace(/^["']|["']$/g, '').trim();
+        }
+
+        // ======================================================================
+        // 0. Groq Cloud API Direct Test (POST https://api.groq.com/openai/v1/chat/completions)
+        // ======================================================================
+        async function testGroqAPI() {
+            const apiKey = getCleanGroqKey();
+            if (!apiKey) {
+                alert('Please enter your Groq API Key first (starts with gsk_...).');
+                return;
+            }
+
+            const model = document.getElementById('groqModel').value;
+            const prompt = document.getElementById('groqPrompt').value.trim() || 'Hello';
+            const btn = document.getElementById('btnTestGroq');
+            const resultBox = document.getElementById('groqResult');
+            const badgeBox = document.getElementById('groqStatusBadge');
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Contacting Groq LPUs...';
+            resultBox.style.display = 'block';
+            badgeBox.innerHTML = '';
+
+            const endpoint = 'https://api.groq.com/openai/v1/chat/completions';
+            const payload = {
+                model: model,
+                messages: [
+                    { role: 'system', content: 'You are Govindam Assistant, the friendly gardening expert for Shri Govindam Nursery and Farms (Jaipur).' },
+                    { role: 'user', content: prompt }
+                ],
+                temperature: 0.6,
+                max_tokens: 450
+            };
+
+            resultBox.textContent = `[REQUEST] POST ${endpoint}\nModel: ${model}\nHeaders: Authorization: Bearer ${apiKey.substring(0, 8)}...\nPayload: ${JSON.stringify(payload, null, 2)}\n\n`;
+
+            const startTime = performance.now();
+            try {
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify(payload)
+                });
+                const elapsed = Math.round(performance.now() - startTime);
+                const data = await response.json();
+
+                if (response.ok) {
+                    const reply = data?.choices?.[0]?.message?.content || '(No message content)';
+                    badgeBox.innerHTML = `<span class="badge badge-success"><i class="fas fa-check-circle"></i> GROQ SUCCESS HTTP 200 OK (${elapsed}ms)</span>`;
+                    resultBox.textContent += `[SUCCESS] HTTP 200 OK (${elapsed}ms)\nSpeed: Ultra-fast LPU inference (~${elapsed}ms)\n\n=== AI REPLY ===\n${reply}\n\n=== FULL RAW JSON ===\n${JSON.stringify(data, null, 2)}`;
+                } else {
+                    const errMsg = data?.error?.message || response.statusText;
+                    badgeBox.innerHTML = `<span class="badge badge-danger"><i class="fas fa-triangle-exclamation"></i> FAILED HTTP ${response.status}</span>`;
+                    resultBox.textContent += `[HTTP ERROR ${response.status}] (${elapsed}ms)\nGroq Message: ${errMsg}\n\n=== FULL RAW ERROR ===\n${JSON.stringify(data, null, 2)}`;
+                }
+            } catch (err) {
+                badgeBox.innerHTML = `<span class="badge badge-danger">Fetch Error</span>`;
+                resultBox.textContent += `\n[NETWORK ERROR] ${err.message}`;
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-play"></i> Test Groq Directly (api.groq.com)';
+            }
         }
 
         // ======================================================================
@@ -586,8 +697,15 @@
             try {
                 const res = await fetch(rootUrl);
                 const data = await res.json();
-                badgeBox.innerHTML = res.ok ? `<span class="badge badge-success">Worker Online</span>` : `<span class="badge badge-danger">Status ${res.status}</span>`;
-                resultBox.textContent = `HTTP ${res.status}\n${JSON.stringify(data, null, 2)}`;
+                if (res.ok) {
+                    const groqOk = data.engines?.groq?.configured ? '🟢 Groq Configured' : '⚪ Groq Missing (GROQ_API_KEY)';
+                    const geminiOk = data.engines?.gemini?.configured ? '🟢 Gemini Configured' : '⚪ Gemini Missing';
+                    badgeBox.innerHTML = `<span class="badge badge-success"><i class="fas fa-check-circle"></i> Worker Online [${groqOk} | ${geminiOk}]</span>`;
+                    resultBox.textContent = `HTTP ${res.status} [ONLINE]\n\nEngine Statuses:\n• Groq: ${groqOk} (Model: ${data.engines?.groq?.model || 'none'})\n• Gemini: ${geminiOk} (Model: ${data.engines?.gemini?.model || 'none'})\n• Mode: ${data.mode || 'standard'}\n\nFull JSON:\n${JSON.stringify(data, null, 2)}`;
+                } else {
+                    badgeBox.innerHTML = `<span class="badge badge-danger">Status ${res.status}</span>`;
+                    resultBox.textContent = `HTTP ${res.status}\n${JSON.stringify(data, null, 2)}`;
+                }
             } catch (e) {
                 badgeBox.innerHTML = `<span class="badge badge-danger">Cannot connect</span>`;
                 resultBox.textContent = `Error: ${e.message}`;
