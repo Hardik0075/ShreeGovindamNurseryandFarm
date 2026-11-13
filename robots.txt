@@ -4,26 +4,17 @@
 # ==============================================================================
 
 # ------------------------------------------------------------------------------
-# 1. Search Engine Crawlers (Googlebot & Bingbot)
-# Authorized for Search Indexing only.
+# 1. Search Engines & AI Discovery (Brings Real Traffic & Local Customers)
+# Allows Google, Bing, ChatGPT, Perplexity & WhatsApp to index and cite the nursery
 # ------------------------------------------------------------------------------
 User-agent: Googlebot
-Allow: /
-Allow: /index.html
-Allow: /packages.html
-Allow: /gallery.html
-Allow: /carbon.html
-Allow: /contact.html
-Allow: /sample_certificate.html
-Allow: /css/
-Allow: /js/
-Allow: /assets/
-Disallow: /data/
-Disallow: /worker/
-Disallow: /test*.html
-Disallow: /*.json$
-
 User-agent: Bingbot
+User-agent: PerplexityBot
+User-agent: ChatGPT-User
+User-agent: GPTBot
+User-agent: Claude-Web
+User-agent: FacebookBot
+User-agent: Meta-ExternalAgent
 Allow: /
 Allow: /index.html
 Allow: /packages.html
@@ -40,62 +31,29 @@ Disallow: /test*.html
 Disallow: /*.json$
 
 # ------------------------------------------------------------------------------
-# 2. Block AI Scrapers, Data Harvesters & Commercial Content Scrapers
+# 2. Block Aggressive Web Scrapers & Bulk Content Harvesters
 # ------------------------------------------------------------------------------
-User-agent: GPTBot
-Disallow: /
-
-User-agent: ChatGPT-User
-Disallow: /
-
-User-agent: CCBot
-Disallow: /
-
-User-agent: anthropic-ai
-Disallow: /
-
-User-agent: ClaudeBot
-Disallow: /
-
-User-agent: Claude-Web
-Disallow: /
-
-User-agent: Google-Extended
-Disallow: /
-
-User-agent: Bytespider
+User-agent: Scrapy
 Disallow: /
 
 User-agent: Diffbot
 Disallow: /
 
-User-agent: PerplexityBot
+User-agent: Bytespider
 Disallow: /
 
-User-agent: Scrapy
-Disallow: /
-
-User-agent: FacebookBot
-Disallow: /
-
-User-agent: Meta-ExternalAgent
+User-agent: CCBot
 Disallow: /
 
 User-agent: DataForSeoBot
-Disallow: /
-
-User-agent: SemrushBot
-Disallow: /
-
-User-agent: AhrefsBot
 Disallow: /
 
 User-agent: MJ12bot
 Disallow: /
 
 # ------------------------------------------------------------------------------
-# 3. All Other Crawlers & Scrapers
-# Strictly disallow scraping of JS, CSS, JSON data, and private scripts
+# 3. General Web Crawlers
+# Allows public landing pages; protects raw plant catalog data and worker code
 # ------------------------------------------------------------------------------
 User-agent: *
 Allow: /
@@ -105,12 +63,8 @@ Allow: /gallery.html
 Allow: /carbon.html
 Allow: /contact.html
 Allow: /sample_certificate.html
-Disallow: /js/
-Disallow: /css/
 Disallow: /data/
 Disallow: /worker/
-Disallow: /*.js$
-Disallow: /*.css$
 Disallow: /*.json$
 Disallow: /*.toml$
 Disallow: /node_modules/
