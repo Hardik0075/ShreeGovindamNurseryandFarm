@@ -150,6 +150,32 @@
         .badge-success { background: #c6f6d5; color: #22543d; }
         .badge-danger { background: #fed7d7; color: #742a2a; }
         .badge-info { background: #bee3f8; color: #2a4365; }
+        .model-pill {
+            display: inline-block;
+            background: #edf2f7;
+            border: 1px solid #cbd5e0;
+            color: #2d3748;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-family: 'JetBrains Mono', monospace;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .model-pill:hover {
+            background: #e2e8f0;
+            border-color: #a0aec0;
+            transform: translateY(-1px);
+        }
+        .model-pill-groq {
+            background: #fff5f2;
+            border-color: #fed7d2;
+            color: #c53030;
+        }
+        .model-pill-groq:hover {
+            background: #fed7d2;
+            border-color: #f56565;
+        }
         .highlight-box {
             background: #f0fff4;
             border: 1px solid #c6f6d5;
@@ -184,23 +210,37 @@
             </div>
         </div>
 
-        <!-- Section 0: Groq Cloud API Test (Llama 3.3 70B - Lightning Fast) -->
+        <!-- Section 0: Groq Cloud API Test (Llama 3.1 8B & Available Models - Ultra Fast) -->
         <div class="card" style="border: 2px solid #f55036;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                 <h2 style="color: #f55036; margin-bottom: 0;">
-                    <i class="fas fa-bolt"></i> 1. Groq Cloud API (Llama 3.3 70B & 3.1 8B)
+                    <i class="fas fa-bolt"></i> 1. Groq Cloud API (LPU Inference Engine)
                 </h2>
-                <span class="badge" style="background: #ffe3df; color: #f55036; font-weight: 700;">Ultra-Fast LPU Engine (~0.35s)</span>
+                <span class="badge" style="background: #ffe3df; color: #f55036; font-weight: 700;">Speed: ~0.15s - 0.35s ⚡</span>
             </div>
-            <p class="subtitle">Direct browser test to <code>https://api.groq.com/openai/v1/chat/completions</code>. Demonstrates instant token streaming!</p>
+            <p class="subtitle">Direct browser test to <code>https://api.groq.com/openai/v1/chat/completions</code>. Demonstrates sub-second token generation!</p>
+
+            <div class="btn-row" style="margin-top: 0; margin-bottom: 16px;">
+                <button class="btn" style="background: #e53e3e;" id="btnDetectGroqModels" onclick="detectGroqModels()">
+                    <i class="fas fa-search"></i> 🔍 Auto-Detect All Available Groq Models on My Account
+                </button>
+            </div>
+
+            <div id="detectedGroqModelsBox" style="margin-top: 14px; margin-bottom: 16px; display: none; background: #fffaf0; border: 1px solid #feebc8; padding: 12px; border-radius: 8px;">
+                <label style="font-size: 0.85rem; color: #7b341e; font-weight: 700; margin-bottom: 8px; display: block;">Active Models on Your Groq Key (Click any pill to select & test):</label>
+                <div id="groqModelPills" style="display: flex; flex-wrap: wrap; gap: 8px;"></div>
+            </div>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
                 <div class="form-group">
                     <label for="groqModel">Groq Model:</label>
                     <select id="groqModel">
-                        <option value="llama-3.3-70b-versatile" selected>llama-3.3-70b-versatile (Recommended)</option>
-                        <option value="llama-3.1-8b-instant">llama-3.1-8b-instant (Fastest ~0.2s)</option>
+                        <option value="llama-3.1-8b-instant" selected>llama-3.1-8b-instant (Guaranteed Active & Fastest ~0.2s) ⚡</option>
+                        <option value="llama-3.3-70b-versatile">llama-3.3-70b-versatile (Check if active on your key)</option>
+                        <option value="llama3-70b-8192">llama3-70b-8192</option>
+                        <option value="llama3-8b-8192">llama3-8b-8192</option>
                         <option value="mixtral-8x7b-32768">mixtral-8x7b-32768</option>
+                        <option value="gemma2-9b-it">gemma2-9b-it</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -346,6 +386,88 @@
         }
 
         // ======================================================================
+        // 0. Auto-Detect Groq Models (GET https://api.groq.com/openai/v1/models)
+        // ======================================================================
+        async function detectGroqModels() {
+            const apiKey = getCleanGroqKey();
+            if (!apiKey) {
+                alert('Please enter your Groq API Key (starts with gsk_...) first.');
+                return;
+            }
+
+            const btn = document.getElementById('btnDetectGroqModels');
+            const resultBox = document.getElementById('groqResult');
+            const badgeBox = document.getElementById('groqStatusBadge');
+            const pillsBox = document.getElementById('groqModelPills');
+            const boxContainer = document.getElementById('detectedGroqModelsBox');
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Fetching Active Models...';
+            resultBox.style.display = 'block';
+            badgeBox.innerHTML = '';
+            pillsBox.innerHTML = '';
+
+            const endpoint = 'https://api.groq.com/openai/v1/models';
+            resultBox.textContent = `[REQUEST] GET ${endpoint}\nHeaders: Authorization: Bearer ${apiKey.substring(0, 8)}...\n\n`;
+
+            const startTime = performance.now();
+            try {
+                const response = await fetch(endpoint, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${apiKey}`
+                    }
+                });
+                const elapsed = Math.round(performance.now() - startTime);
+                const data = await response.json();
+
+                if (response.ok && Array.isArray(data.data)) {
+                    // Filter and sort active models
+                    const models = data.data
+                        .map(m => m.id)
+                        .filter(id => id && !id.includes('whisper') && !id.includes('guard'))
+                        .sort();
+
+                    badgeBox.innerHTML = `<span class="badge badge-success"><i class="fas fa-check-circle"></i> Found ${models.length} Text/LLM Models on Your Account (${elapsed}ms)</span>`;
+                    resultBox.textContent += `[SUCCESS] HTTP 200 OK (${elapsed}ms)\nActive models for your key:\n` +
+                        models.map(m => ` • ${m}`).join('\n') + `\n\n=== FULL RAW RESPONSE ===\n${JSON.stringify(data, null, 2)}`;
+
+                    const select = document.getElementById('groqModel');
+                    select.innerHTML = '';
+                    models.forEach(modelId => {
+                        const opt = document.createElement('option');
+                        opt.value = modelId;
+                        const isInstant = modelId.includes('8b-instant');
+                        opt.textContent = modelId + (isInstant ? ' ⚡ (Recommended Instant)' : '');
+                        if (isInstant) opt.selected = true;
+                        select.appendChild(opt);
+
+                        const pill = document.createElement('span');
+                        pill.className = 'model-pill model-pill-groq';
+                        pill.textContent = modelId;
+                        pill.title = `Click to test ${modelId}`;
+                        pill.onclick = () => {
+                            select.value = modelId;
+                            testGroqAPI();
+                        };
+                        pillsBox.appendChild(pill);
+                    });
+                    boxContainer.style.display = 'block';
+                } else {
+                    const errMsg = data?.error?.message || response.statusText;
+                    badgeBox.innerHTML = `<span class="badge badge-danger"><i class="fas fa-triangle-exclamation"></i> Error (${response.status})</span>`;
+                    resultBox.textContent += `[HTTP ERROR ${response.status}] (${elapsed}ms)\nGroq Message: ${errMsg}\n\n=== FULL RAW ERROR ===\n${JSON.stringify(data, null, 2)}`;
+                }
+            } catch (err) {
+                badgeBox.innerHTML = `<span class="badge badge-danger">Fetch Error</span>`;
+                resultBox.textContent += `\n[NETWORK ERROR] ${err.message}`;
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-search"></i> 🔍 Auto-Detect All Available Groq Models on My Account';
+            }
+        }
+
+        // ======================================================================
         // 0. Groq Cloud API Direct Test (POST https://api.groq.com/openai/v1/chat/completions)
         // ======================================================================
         async function testGroqAPI() {
@@ -395,11 +517,15 @@
                 if (response.ok) {
                     const reply = data?.choices?.[0]?.message?.content || '(No message content)';
                     badgeBox.innerHTML = `<span class="badge badge-success"><i class="fas fa-check-circle"></i> GROQ SUCCESS HTTP 200 OK (${elapsed}ms)</span>`;
-                    resultBox.textContent += `[SUCCESS] HTTP 200 OK (${elapsed}ms)\nSpeed: Ultra-fast LPU inference (~${elapsed}ms)\n\n=== AI REPLY ===\n${reply}\n\n=== FULL RAW JSON ===\n${JSON.stringify(data, null, 2)}`;
+                    resultBox.textContent += `[SUCCESS] HTTP 200 OK (${elapsed}ms)\nSpeed: Ultra-fast LPU inference (~${elapsed}ms)\nModel: ${model}\n\n=== AI REPLY ===\n${reply}\n\n=== FULL RAW JSON ===\n${JSON.stringify(data, null, 2)}`;
                 } else {
                     const errMsg = data?.error?.message || response.statusText;
                     badgeBox.innerHTML = `<span class="badge badge-danger"><i class="fas fa-triangle-exclamation"></i> FAILED HTTP ${response.status}</span>`;
-                    resultBox.textContent += `[HTTP ERROR ${response.status}] (${elapsed}ms)\nGroq Message: ${errMsg}\n\n=== FULL RAW ERROR ===\n${JSON.stringify(data, null, 2)}`;
+                    let hint = '';
+                    if (response.status === 404) {
+                        hint = `\n💡 FIX: Model '${model}' is not active or accessible on your key.\n👉 Switch the Model dropdown to "llama-3.1-8b-instant" (supported on ALL Groq accounts) or click "Auto-Detect All Available Groq Models on My Account" above!\n\n`;
+                    }
+                    resultBox.textContent += `[HTTP ERROR ${response.status}] (${elapsed}ms)\nGroq Message: ${errMsg}\n${hint}=== FULL RAW ERROR ===\n${JSON.stringify(data, null, 2)}`;
                 }
             } catch (err) {
                 badgeBox.innerHTML = `<span class="badge badge-danger">Fetch Error</span>`;

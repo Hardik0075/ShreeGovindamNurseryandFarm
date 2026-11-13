@@ -68,11 +68,11 @@ export default {
         engines: {
           groq: {
             configured: Boolean(env.GROQ_API_KEY),
-            model: env.GROQ_MODEL || "llama-3.3-70b-versatile"
+            model: env.GROQ_MODEL || "llama-3.1-8b-instant"
           },
           gemini: {
             configured: Boolean(env.GEMINI_API_KEY),
-            model: env.GEMINI_MODEL || "gemini-3.8-flash"
+            model: env.GEMINI_MODEL || "gemini-1.5-flash"
           }
         },
         mode: (env.GROQ_API_KEY && env.GEMINI_API_KEY) ? "parallel_fastest_wins" : "single_or_fallback"
@@ -128,15 +128,15 @@ export default {
       // ======================================================================
       const parallelTasks = [];
 
-      // Task A: Groq API (Llama 3.3 70B - lightning fast ~0.35s)
+      // Task A: Groq API (Llama 3.1 8B instant - ultra-fast ~0.2s - 0.35s)
       if (groqKey) {
-        const groqModel = env.GROQ_MODEL || "llama-3.3-70b-versatile";
+        const groqModel = env.GROQ_MODEL || "llama-3.1-8b-instant";
         parallelTasks.push(callGroq(groqKey, groqModel, userMessage, historyMessages, SYSTEM_INSTRUCTION));
       }
 
-      // Task B: Google Gemini API (gemini-3.8-flash Interactions API)
+      // Task B: Google Gemini API (gemini-1.5-flash with multi-model fallback)
       if (geminiKey) {
-        const geminiModel = env.GEMINI_MODEL || "gemini-3.8-flash";
+        const geminiModel = env.GEMINI_MODEL || "gemini-1.5-flash";
         parallelTasks.push(callGemini(geminiKey, geminiModel, conversationInput, SYSTEM_INSTRUCTION));
       }
 
@@ -199,7 +199,7 @@ export default {
 };
 
 /**
- * Groq Cloud API Caller (Ultra-fast LPU inference)
+ * Groq Cloud API Caller (Ultra-fast LPU inference with automatic 404 model fallback)
  */
 async function callGroq(apiKey, model, userMessage, historyMessages, systemInstruction) {
   const start = Date.now();
@@ -228,6 +228,11 @@ async function callGroq(apiKey, model, userMessage, historyMessages, systemInstr
     const latencyMs = Date.now() - start;
     if (!res.ok) {
       const errText = await res.text();
+      // Auto-fallback: If requested model returned 404 (model not found on account), retry with guaranteed llama-3.1-8b-instant
+      if (res.status === 404 && model !== "llama-3.1-8b-instant") {
+        console.warn(`[Groq] Model ${model} returned 404. Auto-retrying with llama-3.1-8b-instant...`);
+        return callGroq(apiKey, "llama-3.1-8b-instant", userMessage, historyMessages, systemInstruction);
+      }
       return { success: false, engine: "groq", status: res.status, error: errText, latencyMs };
     }
 
@@ -249,81 +254,91 @@ async function callGroq(apiKey, model, userMessage, historyMessages, systemInstr
 }
 
 /**
- * Google Gemini Caller (Interactions API with generateContent backup)
+ * Google Gemini Caller (Multi-model resilience: Interactions API + generateContent)
  */
 async function callGemini(apiKey, model, input, systemInstruction) {
   const start = Date.now();
   try {
-    // 1. Try Interactions API
-    const interactionsUrl = `https://generativelanguage.googleapis.com/v1beta/interactions?key=${encodeURIComponent(apiKey)}`;
-    const res = await fetch(interactionsUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-goog-api-key": apiKey
-      },
-      body: JSON.stringify({
-        model: model,
-        input: input,
-        system_instruction: systemInstruction
-      })
-    });
+    // 1. Try Interactions API if specified model is given
+    try {
+      const interactionsUrl = `https://generativelanguage.googleapis.com/v1beta/interactions?key=${encodeURIComponent(apiKey)}`;
+      const res = await fetch(interactionsUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-goog-api-key": apiKey
+        },
+        body: JSON.stringify({
+          model: model || "gemini-1.5-flash",
+          input: input,
+          system_instruction: systemInstruction
+        })
+      });
 
-    const latencyMs = Date.now() - start;
-    if (res.ok) {
-      const data = await res.json();
-      let extracted = "";
+      if (res.ok) {
+        const data = await res.json();
+        let extracted = "";
 
-      if (typeof data.output_text === "string" && data.output_text.trim()) {
-        extracted = data.output_text;
-      } else if (Array.isArray(data.steps)) {
-        for (const step of data.steps) {
-          if (step.type === "model_output" && Array.isArray(step.content)) {
-            for (const c of step.content) {
-              if (c && c.type === "text" && c.text) extracted += c.text;
+        if (typeof data.output_text === "string" && data.output_text.trim()) {
+          extracted = data.output_text;
+        } else if (Array.isArray(data.steps)) {
+          for (const step of data.steps) {
+            if (step.type === "model_output" && Array.isArray(step.content)) {
+              for (const c of step.content) {
+                if (c && c.type === "text" && c.text) extracted += c.text;
+              }
             }
           }
         }
-      }
 
-      if (extracted.trim()) {
-        return {
-          success: true,
-          engine: "gemini",
-          model: model,
-          text: cleanAiOutput(extracted.trim()),
-          latencyMs
-        };
+        if (extracted.trim()) {
+          return {
+            success: true,
+            engine: "gemini_interactions",
+            model: model || "gemini-1.5-flash",
+            text: cleanAiOutput(extracted.trim()),
+            latencyMs: Date.now() - start
+          };
+        }
       }
+    } catch (_) {}
+
+    // 2. Secondary generateContent API backup (gemini-1.5-flash & gemini-2.0-flash)
+    const geminiCandidates = [model || "gemini-1.5-flash", "gemini-1.5-flash", "gemini-2.0-flash"];
+    const tried = new Set();
+
+    for (const genModel of geminiCandidates) {
+      if (tried.has(genModel)) continue;
+      tried.add(genModel);
+
+      try {
+        const genUrl = `https://generativelanguage.googleapis.com/v1beta/models/${genModel}:generateContent?key=${encodeURIComponent(apiKey)}`;
+        const genRes = await fetch(genUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ role: "user", parts: [{ text: input }] }],
+            systemInstruction: { parts: [{ text: systemInstruction }] }
+          })
+        });
+
+        if (genRes.ok) {
+          const genData = await genRes.json();
+          const reply = genData?.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+          if (reply) {
+            return {
+              success: true,
+              engine: "gemini",
+              model: genModel,
+              text: cleanAiOutput(reply),
+              latencyMs: Date.now() - start
+            };
+          }
+        }
+      } catch (_) {}
     }
 
-    // 2. Secondary generateContent API backup if Interactions API is queued
-    const genUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${encodeURIComponent(apiKey)}`;
-    const genRes = await fetch(genUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{ role: "user", parts: [{ text: input }] }],
-        systemInstruction: { parts: [{ text: systemInstruction }] }
-      })
-    });
-
-    if (genRes.ok) {
-      const genData = await genRes.json();
-      const reply = genData?.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
-      if (reply) {
-        return {
-          success: true,
-          engine: "gemini_generate",
-          model: "gemini-2.0-flash",
-          text: cleanAiOutput(reply),
-          latencyMs: Date.now() - start
-        };
-      }
-    }
-
-    const err = await res.text();
-    return { success: false, engine: "gemini", status: res.status, error: err, latencyMs };
+    return { success: false, engine: "gemini", status: 500, error: "All Gemini model candidates exhausted", latencyMs: Date.now() - start };
   } catch (e) {
     return { success: false, engine: "gemini", status: 0, error: e.message, latencyMs: Date.now() - start };
   }
