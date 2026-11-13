@@ -235,12 +235,11 @@
                 <div class="form-group">
                     <label for="groqModel">Groq Model:</label>
                     <select id="groqModel">
-                        <option value="llama-3.1-8b-instant" selected>llama-3.1-8b-instant (Guaranteed Active & Fastest ~0.2s) ⚡</option>
-                        <option value="llama-3.3-70b-versatile">llama-3.3-70b-versatile (Check if active on your key)</option>
-                        <option value="llama3-70b-8192">llama3-70b-8192</option>
-                        <option value="llama3-8b-8192">llama3-8b-8192</option>
-                        <option value="mixtral-8x7b-32768">mixtral-8x7b-32768</option>
-                        <option value="gemma2-9b-it">gemma2-9b-it</option>
+                        <option value="openai/gpt-oss-120b" selected>openai/gpt-oss-120b (Active on Your Account - Flagship 120B) ⚡</option>
+                        <option value="openai/gpt-oss-20b">openai/gpt-oss-20b (Ultra-Fast 20B)</option>
+                        <option value="qwen/qwen3.8-27b">qwen/qwen3.8-27b (Alibaba Cloud 27B)</option>
+                        <option value="llama-3.1-8b-instant">llama-3.1-8b-instant</option>
+                        <option value="llama-3.3-70b-versatile">llama-3.3-70b-versatile</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -434,12 +433,23 @@
 
                     const select = document.getElementById('groqModel');
                     select.innerHTML = '';
+                    let hasSelected = false;
                     models.forEach(modelId => {
                         const opt = document.createElement('option');
                         opt.value = modelId;
-                        const isInstant = modelId.includes('8b-instant');
-                        opt.textContent = modelId + (isInstant ? ' ⚡ (Recommended Instant)' : '');
-                        if (isInstant) opt.selected = true;
+                        let label = modelId;
+                        if (modelId === 'openai/gpt-oss-120b') {
+                            label += ' ⚡ (Recommended Flagship 120B)';
+                            opt.selected = true;
+                            hasSelected = true;
+                        } else if (modelId === 'openai/gpt-oss-20b') {
+                            label += ' (Ultra-Fast 20B)';
+                            if (!hasSelected) { opt.selected = true; hasSelected = true; }
+                        } else if (modelId.includes('8b-instant')) {
+                            label += ' (Llama 8B Instant)';
+                            if (!hasSelected) { opt.selected = true; hasSelected = true; }
+                        }
+                        opt.textContent = label;
                         select.appendChild(opt);
 
                         const pill = document.createElement('span');
@@ -452,6 +462,9 @@
                         };
                         pillsBox.appendChild(pill);
                     });
+                    if (!hasSelected && select.options.length > 0) {
+                        select.options[0].selected = true;
+                    }
                     boxContainer.style.display = 'block';
                 } else {
                     const errMsg = data?.error?.message || response.statusText;
@@ -495,9 +508,14 @@
                     { role: 'system', content: 'You are Govindam Assistant, the friendly gardening expert for Shri Govindam Nursery and Farms (Jaipur).' },
                     { role: 'user', content: prompt }
                 ],
-                temperature: 0.6,
-                max_tokens: 450
+                temperature: 0.7,
+                max_completion_tokens: 1024
             };
+
+            // Enable fast reasoning effort if testing OpenAI GPT-OSS on Groq
+            if (model.includes('gpt-oss')) {
+                payload.reasoning_effort = 'low';
+            }
 
             resultBox.textContent = `[REQUEST] POST ${endpoint}\nModel: ${model}\nHeaders: Authorization: Bearer ${apiKey.substring(0, 8)}...\nPayload: ${JSON.stringify(payload, null, 2)}\n\n`;
 
@@ -515,7 +533,10 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    const reply = data?.choices?.[0]?.message?.content || '(No message content)';
+                    let reply = data?.choices?.[0]?.message?.content || '(No message content)';
+                    // Strip internal <think> reasoning tags if emitted
+                    reply = reply.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+
                     badgeBox.innerHTML = `<span class="badge badge-success"><i class="fas fa-check-circle"></i> GROQ SUCCESS HTTP 200 OK (${elapsed}ms)</span>`;
                     resultBox.textContent += `[SUCCESS] HTTP 200 OK (${elapsed}ms)\nSpeed: Ultra-fast LPU inference (~${elapsed}ms)\nModel: ${model}\n\n=== AI REPLY ===\n${reply}\n\n=== FULL RAW JSON ===\n${JSON.stringify(data, null, 2)}`;
                 } else {
@@ -523,7 +544,7 @@
                     badgeBox.innerHTML = `<span class="badge badge-danger"><i class="fas fa-triangle-exclamation"></i> FAILED HTTP ${response.status}</span>`;
                     let hint = '';
                     if (response.status === 404) {
-                        hint = `\n💡 FIX: Model '${model}' is not active or accessible on your key.\n👉 Switch the Model dropdown to "llama-3.1-8b-instant" (supported on ALL Groq accounts) or click "Auto-Detect All Available Groq Models on My Account" above!\n\n`;
+                        hint = `\n💡 FIX: Model '${model}' is not active on your key.\n👉 Switch the Model dropdown to "openai/gpt-oss-120b" (active on your account) or click "Auto-Detect All Available Groq Models on My Account" above!\n\n`;
                     }
                     resultBox.textContent += `[HTTP ERROR ${response.status}] (${elapsed}ms)\nGroq Message: ${errMsg}\n${hint}=== FULL RAW ERROR ===\n${JSON.stringify(data, null, 2)}`;
                 }

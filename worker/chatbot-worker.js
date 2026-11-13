@@ -68,7 +68,7 @@ export default {
         engines: {
           groq: {
             configured: Boolean(env.GROQ_API_KEY),
-            model: env.GROQ_MODEL || "llama-3.1-8b-instant"
+            model: env.GROQ_MODEL || "openai/gpt-oss-120b"
           },
           gemini: {
             configured: Boolean(env.GEMINI_API_KEY),
@@ -128,9 +128,9 @@ export default {
       // ======================================================================
       const parallelTasks = [];
 
-      // Task A: Groq API (Llama 3.1 8B instant - ultra-fast ~0.2s - 0.35s)
+      // Task A: Groq API (openai/gpt-oss-120b & 20b on LPUs ~0.3s - 0.5s response)
       if (groqKey) {
-        const groqModel = env.GROQ_MODEL || "llama-3.1-8b-instant";
+        const groqModel = env.GROQ_MODEL || "openai/gpt-oss-120b";
         parallelTasks.push(callGroq(groqKey, groqModel, userMessage, historyMessages, SYSTEM_INSTRUCTION));
       }
 
@@ -211,34 +211,46 @@ async function callGroq(apiKey, model, userMessage, historyMessages, systemInstr
       { role: "user", content: userMessage }
     ];
 
+    const payload = {
+      model: model,
+      messages: messages,
+      temperature: 0.7,
+      max_completion_tokens: 1024
+    };
+
+    if (model.includes("gpt-oss")) {
+      payload.reasoning_effort = "low";
+    }
+
     const res = await fetch(endpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${apiKey}`
       },
-      body: JSON.stringify({
-        model: model,
-        messages: messages,
-        temperature: 0.6,
-        max_tokens: 450
-      })
+      body: JSON.stringify(payload)
     });
 
     const latencyMs = Date.now() - start;
     if (!res.ok) {
       const errText = await res.text();
-      // Auto-fallback: If requested model returned 404 (model not found on account), retry with guaranteed llama-3.1-8b-instant
-      if (res.status === 404 && model !== "llama-3.1-8b-instant") {
-        console.warn(`[Groq] Model ${model} returned 404. Auto-retrying with llama-3.1-8b-instant...`);
-        return callGroq(apiKey, "llama-3.1-8b-instant", userMessage, historyMessages, systemInstruction);
+      // Auto-fallback: If requested model returned 404, fallback to openai/gpt-oss-120b, then openai/gpt-oss-20b
+      if (res.status === 404) {
+        if (model !== "openai/gpt-oss-120b") {
+          console.warn(`[Groq] Model ${model} returned 404. Retrying with openai/gpt-oss-120b...`);
+          return callGroq(apiKey, "openai/gpt-oss-120b", userMessage, historyMessages, systemInstruction);
+        } else {
+          console.warn(`[Groq] Model ${model} returned 404. Retrying with openai/gpt-oss-20b...`);
+          return callGroq(apiKey, "openai/gpt-oss-20b", userMessage, historyMessages, systemInstruction);
+        }
       }
       return { success: false, engine: "groq", status: res.status, error: errText, latencyMs };
     }
 
     const data = await res.json();
-    const reply = data?.choices?.[0]?.message?.content?.trim();
+    let reply = data?.choices?.[0]?.message?.content?.trim();
     if (reply) {
+      reply = reply.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
       return {
         success: true,
         engine: "groq",
@@ -350,8 +362,10 @@ async function callGemini(apiKey, model, input, systemInstruction) {
 function cleanAiOutput(text) {
   if (!text) return "";
   let cleaned = text;
-  cleaned = cleaned.replace(/^(as an ai developed by meta|as a large language model trained by google|i am an ai developed by meta)[^.]*\.\s*/i, '');
-  cleaned = cleaned.replace(/^hello!?\s*i am llama[^.]*\.\s*/i, '');
+  // Strip reasoning chains
+  cleaned = cleaned.replace(/<think>[\s\S]*?<\/think>/gi, '');
+  cleaned = cleaned.replace(/^(as an ai developed by meta|as a large language model trained by google|i am an ai developed by meta|as an ai developed by openai|as an open-source model)[^.]*\.\s*/i, '');
+  cleaned = cleaned.replace(/^hello!?\s*i am (llama|gpt|assistant)[^.]*\.\s*/i, '');
   return cleaned.trim();
 }
 
