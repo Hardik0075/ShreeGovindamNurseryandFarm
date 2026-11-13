@@ -1,25 +1,53 @@
 /**
  * Cloudflare Worker: Shri Govindam Nursery Chatbot Backend
  *
- * Multi-Model Resilient AI Backend:
- * 1. Primary: Google Gen AI Interactions API (POST /v1beta/interactions)
- *    - gemini-3.8-flash (Latest fast reasoning model)
- *    - Auto-failover to gemini-3.5-flash / gemini-2.5-flash if 503 high demand occurs
- * 2. Secondary: Google generateContent API (POST /v1beta/models/...:generateContent)
- *    - gemini-2.5-flash / gemini-2.0-flash
- * 3. Offline Safety Net: Embedded verified nursery knowledge base
- * 4. Strict privacy: Keeps GEMINI_API_KEY completely server-side.
+ * Dual Parallel AI Architecture (Fastest-Wins Race):
+ * 1. Engine 1: Groq Cloud API (Llama 3.3 70B / Llama 3.1 8B) - Ultra-fast (~0.3s - 0.5s response)
+ * 2. Engine 2: Google Gemini API (gemini-3.8-flash Interactions API + generateContent)
+ * 3. Race Controller: Promise.any() resolves the fastest validated answer immediately
+ * 4. Grounded in authoritative plant catalog from data/nursery-knowledge.json
+ * 5. Strict ₹0/month budget with automatic fallback to local knowledge base
  */
 
-const SYSTEM_INSTRUCTION = `You are "Govindam Assistant", the knowledgeable, helpful gardening expert for Shri Govindam Nursery and Farms (located in Dhodhsar, Jaipur, Rajasthan 303712; open 24/7).
+const SYSTEM_INSTRUCTION = `You are "Govindam Assistant", the knowledgeable, friendly plant and gardening consultant for Shri Govindam Nursery and Farms (located at Dhodhsar, Jaipur, Rajasthan 303712; open 24/7; Phone & WhatsApp: +91 97725 85880; Established 1997 with 25+ years horticultural experience).
 
-Your instructions:
-1. Provide accurate, practical gardening and plant care advice (sunlight, soil, watering, climate adaptation).
-2. If asked about plants outside nursery stock (like vegetables, potatoes, onions, or seasonal herbs), give practical care advice warmly, and also suggest Shri Govindam Nursery's fruit trees and green combos for their garden.
-3. Fruit trees at nursery: Mango (Amrapali, Dasheri, Chausa, Kesar), Guava (Safeda, L-49, VNR Bihi), Lemon (Kagzi, Seedless), Pomegranate (Bhagwa, Ganesh), Amla (Chakaiya, NA-7), Jamun, Sitafal, Chikoo.
-4. Medicinal & Indoor: Neem, Tulsi, Arjun, Bel Patra, Moringa, Snake Plant, Areca Palm, Money Plant.
-5. Pricing policy: NEVER guess individual plant prices. Direct pricing and live stock inquiries to WhatsApp (+91 97725 85880).
-6. Keep responses clear, friendly, formatted with bullet points, and under 180 words.`;
+CORE NURSERY KNOWLEDGE:
+- Small Plants for Office Desk / Balcony:
+  • Snake Plant (Sansevieria): NASA-certified air purifier, releases oxygen at night, thrives in indoor low-light, requires watering only every 2-3 weeks.
+  • Money Plant (Pothos): Lush trailing greenery, thrives in indirect bright light or clean water vase, natural air filter.
+  • Jade Plant & Compact Ficus: Elegant indoor decorative succulents, low maintenance.
+  • Areca / Bamboo Palm: Natural indoor humidifier and air toxin filter.
+
+- Fruit Trees (Acclimatized to Rajasthan & North India):
+  • Mango (Amrapali, Dasheri, Chausa, Kesar, Langra): ~22 kg CO2/yr, full sun, deep rich loam.
+  • Guava (Allahabad Safeda, L-49, VNR Bihi): ~20 kg CO2/yr, drought hardy, regular high yield.
+  • Lemon / Kagzi Nimbu (Thin-skinned & Seedless Baramasi): ~15 kg CO2/yr, full sun, year-round fruiting.
+  • Pomegranate / Anaar (Bhagwa, Ganesh): ~19 kg CO2/yr, thrives in semi-arid climate.
+  • Amla / Aonla (Chakaiya, NA-7): ~18 kg CO2/yr, highly alkaline-tolerant, Vitamin C champion.
+  • Sitafal / Custard Apple (~16 kg CO2/yr), Chikoo / Kalipatti (~18 kg CO2/yr), Jamun (~24 kg CO2/yr).
+
+- Medicinal & Sacred Plants:
+  • Neem (~26 kg CO2/yr): Natural antibacterial, air purifier, sacred shade tree.
+  • Tulsi (Rama & Krishna): Daily immunity booster, sacred spiritual value.
+  • Arjun (~24 kg CO2/yr): Ayurvedic cardiovascular tonic tree.
+  • Bel Patra: Sacred to Lord Shiva, cooling digestive properties.
+  • Moringa / Sahjan: Superfood drumstick tree rich in iron and protein.
+  • Aloe Vera: Soothing skin gel, minimal water.
+
+- Vegetable / Kitchen Garden Tips: Provide practical guidance for potatoes, onions, tomatoes, and chillies, and recommend pairing them with organic vermicompost.
+
+- Curated Packages (Include official Carbon Offset Certificate):
+  • Fruit Lovers Combo: 10 plants for ₹3,499 (Offsets ~210 kg CO2/yr)
+  • Mini Orchard Starter: 15 plants for ₹4,699 (Offsets ~300 kg CO2/yr)
+  • Air Purifier Pack: 12 NASA-proven plants for ₹3,999 (Offsets ~120 kg CO2/yr)
+  • Sacred & Medicinal Garden: 10 Ayurvedic plants for ₹3,799 (Offsets ~190 kg CO2/yr)
+  • Fast-Growing Green Wall: 20 trees for ₹3,999 (Offsets ~460 kg CO2/yr)
+  • Commercial Agro-Carbon Orchard: 500+ trees (₹11,25,000 with 3-year agronomy care)
+
+CRITICAL POLICIES & CONSTRAINTS:
+1. PRICING: NEVER invent or guess individual plant prices. Prices depend on sapling age, height, and bag size. Always tell customers to connect on WhatsApp (+91 97725 85880) for today's live stock and wholesale rates.
+2. IDENTITY: Always represent Shri Govindam Nursery. NEVER say "I am a Meta Llama AI" or "I am Gemini from Google". Refer to yourself simply as "Govindam Assistant".
+3. FORMAT: Keep responses warm, helpful, bulleted, and under 170 words.`;
 
 export default {
   async fetch(request, env) {
@@ -32,19 +60,26 @@ export default {
     }
 
     // 2. Health check for GET /
-    const url = new URL(request.url);
     if (request.method === "GET") {
       return jsonResponse({
         status: "online",
-        service: "Shri Govindam Nursery Chatbot API",
+        service: "Shri Govindam Nursery Dual Parallel AI API",
         endpoint: "POST /api/chat or POST /",
-        hasApiKey: Boolean(env.GEMINI_API_KEY),
-        primaryModel: env.GEMINI_MODEL || "gemini-3.8-flash",
-        api: "Google Interactions API with Multi-Model Failover (gemini-3.8-flash, gemini-3.5-flash, gemini-2.5-flash)"
+        engines: {
+          groq: {
+            configured: Boolean(env.GROQ_API_KEY),
+            model: env.GROQ_MODEL || "llama-3.3-70b-versatile"
+          },
+          gemini: {
+            configured: Boolean(env.GEMINI_API_KEY),
+            model: env.GEMINI_MODEL || "gemini-3.8-flash"
+          }
+        },
+        mode: (env.GROQ_API_KEY && env.GEMINI_API_KEY) ? "parallel_fastest_wins" : "single_or_fallback"
       }, 200, request);
     }
 
-    // Only allow POST requests (accepts /api/chat, /, or /chat)
+    // Only allow POST requests
     if (request.method !== "POST") {
       return jsonResponse({ error: "Method not allowed. Send POST with JSON body: {\"message\": \"...\"}" }, 405, request);
     }
@@ -60,44 +95,28 @@ export default {
       if (userMessage.length === 0) {
         return jsonResponse({ error: "Message cannot be empty" }, 400, request);
       }
-      if (userMessage.length > 600) {
-        return jsonResponse({ error: "Message too long (max 600 characters)" }, 400, request);
+      if (userMessage.length > 700) {
+        return jsonResponse({ error: "Message too long (max 700 characters)" }, 400, request);
       }
 
-      // Check for API key in Cloudflare environment
-      const rawKey = env.GEMINI_API_KEY;
-      if (!rawKey) {
-        const fallback = getKnowledgeFallback(userMessage);
-        return jsonResponse({
-          reply: fallback.text,
-          model: "nursery_knowledge_base",
-          source: "offline_fallback",
-          fallback: true,
-          whatsappUrl: "https://wa.me/919772585880"
-        }, 200, request);
-      }
-
-      // Sanitize API Key: remove accidental quotes, whitespace, or "GEMINI_API_KEY=" prefix
-      let apiKey = rawKey.trim();
-      apiKey = apiKey.replace(/^GEMINI_API_KEY\s*=\s*/i, '');
-      apiKey = apiKey.replace(/^["']|["']$/g, '').trim();
-
-      // Interactions API endpoint & model candidates
-      const interactionsUrl = `https://generativelanguage.googleapis.com/v1beta/interactions?key=${encodeURIComponent(apiKey)}`;
-      const preferredModel = env.GEMINI_MODEL || "gemini-3.8-flash";
-      const interactionCandidates = [
-        preferredModel,
-        "gemini-3.5-flash",
-        "gemini-2.5-flash"
-      ].filter((m, i, arr) => arr.indexOf(m) === i);
+      // Sanitize API Keys from Cloudflare environment
+      const groqKey = sanitizeKey(env.GROQ_API_KEY, "GROQ_API_KEY");
+      const geminiKey = sanitizeKey(env.GEMINI_API_KEY, "GEMINI_API_KEY");
 
       // Build conversation context if history exists
       let conversationInput = userMessage;
+      let historyMessages = [];
       if (Array.isArray(body.history) && body.history.length > 0) {
-        const historyContext = body.history
+        historyMessages = body.history
           .filter(h => h && h.text)
           .slice(-4)
-          .map(h => `${h.role === 'user' ? 'Customer' : 'Assistant'}: ${String(h.text).substring(0, 200)}`)
+          .map(h => ({
+            role: h.role === 'user' ? 'user' : 'assistant',
+            content: String(h.text).substring(0, 250)
+          }));
+
+        const historyContext = historyMessages
+          .map(h => `${h.role === 'user' ? 'Customer' : 'Assistant'}: ${h.content}`)
           .join('\n');
         if (historyContext) {
           conversationInput = `Recent chat:\n${historyContext}\n\nCustomer: ${userMessage}`;
@@ -105,99 +124,63 @@ export default {
       }
 
       // ======================================================================
-      // 1. Call Google Interactions API with Multi-Model Failover
+      // 4. Parallel Fastest-Wins Execution (Groq + Gemini Concurrently)
       // ======================================================================
-      const attempts = [];
+      const parallelTasks = [];
 
-      for (const modelName of interactionCandidates) {
-        const result = await callInteractions(
-          interactionsUrl,
-          apiKey,
-          modelName,
-          conversationInput,
-          SYSTEM_INSTRUCTION
-        );
-
-        attempts.push({ api: "interactions", model: modelName, status: result.status, error: result.error });
-
-        if (result.success && result.text) {
-          return jsonResponse({
-            reply: result.text,
-            model: modelName,
-            source: "google_gemini_ai",
-            api: "interactions",
-            fallback: false,
-            whatsappUrl: "https://wa.me/919772585880"
-          }, 200, request);
-        }
-
-        // If 400 Bad Request or 403 Forbidden, do not spam other models
-        if (result.status === 400 || result.status === 403) {
-          break;
-        }
-
-        // If 503 (high demand) or 429 (rate limit), pause briefly before trying next model
-        if (result.status === 503 || result.status === 429) {
-          await new Promise(r => setTimeout(r, 600));
-        }
+      // Task A: Groq API (Llama 3.3 70B - lightning fast ~0.35s)
+      if (groqKey) {
+        const groqModel = env.GROQ_MODEL || "llama-3.3-70b-versatile";
+        parallelTasks.push(callGroq(groqKey, groqModel, userMessage, historyMessages, SYSTEM_INSTRUCTION));
       }
 
-      // ======================================================================
-      // 2. Secondary Failover: Try generateContent API
-      // ======================================================================
-      const generateCandidates = ["gemini-2.0-flash", "gemini-1.5-flash"];
-      for (const genModel of generateCandidates) {
-        const genResult = await callGenerateContent(
-          apiKey,
-          genModel,
-          conversationInput,
-          SYSTEM_INSTRUCTION
-        );
+      // Task B: Google Gemini API (gemini-3.8-flash Interactions API)
+      if (geminiKey) {
+        const geminiModel = env.GEMINI_MODEL || "gemini-3.8-flash";
+        parallelTasks.push(callGemini(geminiKey, geminiModel, conversationInput, SYSTEM_INSTRUCTION));
+      }
 
-        attempts.push({ api: "generateContent", model: genModel, status: genResult.status, error: genResult.error });
+      // If at least one AI engine is configured, run the race!
+      if (parallelTasks.length > 0) {
+        try {
+          // Promise.any resolves with the FIRST successfully answered engine
+          const winner = await Promise.any(
+            parallelTasks.map(taskPromise =>
+              taskPromise.then(result => {
+                if (result && result.success && result.text) {
+                  return result;
+                }
+                throw new Error(result ? result.error : "Engine returned empty");
+              })
+            )
+          );
 
-        if (genResult.success && genResult.text) {
-          return jsonResponse({
-            reply: genResult.text,
-            model: genModel,
-            source: "google_gemini_ai",
-            api: "generateContent",
-            fallback: false,
-            whatsappUrl: "https://wa.me/919772585880"
-          }, 200, request);
+          if (winner && winner.text) {
+            return jsonResponse({
+              reply: winner.text,
+              model: winner.model,
+              source: "govindam_ai",
+              engine: winner.engine,
+              latencyMs: winner.latencyMs,
+              fallback: false,
+              whatsappUrl: "https://wa.me/919772585880"
+            }, 200, request);
+          }
+        } catch (raceErr) {
+          console.warn("[Govindam AI] Parallel AI race failed, falling back to local knowledge base:", raceErr);
         }
       }
 
       // ======================================================================
-      // 3. Offline Verified Knowledge Base (when Google AI is busy or offline)
+      // 5. Offline Verified Knowledge Base (Safety Net)
       // ======================================================================
-      const lastAttempt = attempts[0] || {};
-      let parsedMessage = "";
-      try {
-        const errObj = JSON.parse(lastAttempt.error);
-        parsedMessage = errObj?.error?.message || "";
-      } catch (e) {
-        parsedMessage = lastAttempt.error || "Service Unavailable";
-      }
-
-      const knowledge = getKnowledgeFallback(userMessage);
-      if (knowledge && knowledge.text) {
-        return jsonResponse({
-          reply: knowledge.text,
-          model: "nursery_knowledge_base",
-          source: "offline_fallback",
-          aiStatus: `Model ${lastAttempt.model} (${lastAttempt.status}): ${parsedMessage}`,
-          attempts: attempts,
-          fallback: true,
-          whatsappUrl: "https://wa.me/919772585880"
-        }, 200, request);
-      }
-
+      const fallback = getKnowledgeFallback(userMessage);
       return jsonResponse({
-        reply: `🌱 Govindam Assistant is experiencing high inquiry traffic at the moment. Please try again shortly, or message our specialists directly on WhatsApp (+91 97725 85880)!`,
+        reply: fallback.text,
+        model: "nursery_knowledge_base",
+        source: "offline_fallback",
+        engine: "local_knowledge",
         fallback: true,
-        statusCode: lastStatus,
-        errorDetail: lastError,
         whatsappUrl: "https://wa.me/919772585880"
       }, 200, request);
 
@@ -216,117 +199,170 @@ export default {
 };
 
 /**
- * Execute call to Google Interactions API (POST /v1beta/interactions)
- * Clean standard payload matching official GenAI SDK interactions.create.
+ * Groq Cloud API Caller (Ultra-fast LPU inference)
  */
-async function callInteractions(endpoint, apiKey, model, input, systemInstruction) {
+async function callGroq(apiKey, model, userMessage, historyMessages, systemInstruction) {
+  const start = Date.now();
   try {
-    const payload = {
-      model: model,
-      input: input
-    };
-    if (systemInstruction) {
-      payload.system_instruction = systemInstruction;
-    }
+    const endpoint = "https://api.groq.com/openai/v1/chat/completions";
+    const messages = [
+      { role: "system", content: systemInstruction },
+      ...historyMessages,
+      { role: "user", content: userMessage }
+    ];
 
     const res = await fetch(endpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-goog-api-key": apiKey
+        "Authorization": `Bearer ${apiKey}`
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify({
+        model: model,
+        messages: messages,
+        temperature: 0.6,
+        max_tokens: 450
+      })
     });
 
-    const status = res.status;
-    const rawText = await res.text();
-
+    const latencyMs = Date.now() - start;
     if (!res.ok) {
-      return { success: false, status, error: rawText };
-    }
-
-    const data = JSON.parse(rawText);
-    let extracted = "";
-
-    // 1. Direct output_text
-    if (typeof data.output_text === "string" && data.output_text.trim()) {
-      extracted = data.output_text;
-    }
-    // 2. Steps array with model_output
-    else if (Array.isArray(data.steps)) {
-      for (const step of data.steps) {
-        if (step.type === "model_output") {
-          if (Array.isArray(step.content)) {
-            for (const c of step.content) {
-              if (c && c.type === "text" && c.text) extracted += c.text;
-              else if (typeof c === "string") extracted += c;
-            }
-          } else if (typeof step.text === "string") {
-            extracted += step.text;
-          }
-        }
-      }
-    }
-    // 3. Candidates fallback
-    else if (Array.isArray(data.candidates)) {
-      extracted = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
-    }
-
-    if (extracted.trim()) {
-      return { success: true, text: extracted.trim(), data };
-    }
-
-    return { success: false, status, error: "Empty model output in response: " + rawText };
-  } catch (err) {
-    return { success: false, status: 0, error: err.message };
-  }
-}
-
-/**
- * Execute call to Google generateContent API (POST /v1beta/models/...:generateContent)
- * Backup channel if Interactions API has a demand spike.
- */
-async function callGenerateContent(apiKey, model, input, systemInstruction) {
-  try {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
-    const payload = {
-      contents: [{ role: "user", parts: [{ text: input }] }]
-    };
-    if (systemInstruction) {
-      payload.systemInstruction = {
-        parts: [{ text: systemInstruction }]
-      };
-    }
-
-    const res = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(payload)
-    });
-
-    if (!res.ok) {
-      const err = await res.text();
-      return { success: false, status: res.status, error: err };
+      const errText = await res.text();
+      return { success: false, engine: "groq", status: res.status, error: errText, latencyMs };
     }
 
     const data = await res.json();
-    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (text && text.trim()) {
-      return { success: true, text: text.trim(), data };
+    const reply = data?.choices?.[0]?.message?.content?.trim();
+    if (reply) {
+      return {
+        success: true,
+        engine: "groq",
+        model: model,
+        text: cleanAiOutput(reply),
+        latencyMs
+      };
     }
-    return { success: false, status: res.status, error: "Empty response" };
-  } catch (err) {
-    return { success: false, status: 0, error: err.message };
+    return { success: false, engine: "groq", status: 200, error: "Empty choice in Groq response", latencyMs };
+  } catch (e) {
+    return { success: false, engine: "groq", status: 0, error: e.message, latencyMs: Date.now() - start };
   }
 }
 
 /**
- * Verified Govindam Nursery Knowledge Base
+ * Google Gemini Caller (Interactions API with generateContent backup)
+ */
+async function callGemini(apiKey, model, input, systemInstruction) {
+  const start = Date.now();
+  try {
+    // 1. Try Interactions API
+    const interactionsUrl = `https://generativelanguage.googleapis.com/v1beta/interactions?key=${encodeURIComponent(apiKey)}`;
+    const res = await fetch(interactionsUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-goog-api-key": apiKey
+      },
+      body: JSON.stringify({
+        model: model,
+        input: input,
+        system_instruction: systemInstruction
+      })
+    });
+
+    const latencyMs = Date.now() - start;
+    if (res.ok) {
+      const data = await res.json();
+      let extracted = "";
+
+      if (typeof data.output_text === "string" && data.output_text.trim()) {
+        extracted = data.output_text;
+      } else if (Array.isArray(data.steps)) {
+        for (const step of data.steps) {
+          if (step.type === "model_output" && Array.isArray(step.content)) {
+            for (const c of step.content) {
+              if (c && c.type === "text" && c.text) extracted += c.text;
+            }
+          }
+        }
+      }
+
+      if (extracted.trim()) {
+        return {
+          success: true,
+          engine: "gemini",
+          model: model,
+          text: cleanAiOutput(extracted.trim()),
+          latencyMs
+        };
+      }
+    }
+
+    // 2. Secondary generateContent API backup if Interactions API is queued
+    const genUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${encodeURIComponent(apiKey)}`;
+    const genRes = await fetch(genUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents: [{ role: "user", parts: [{ text: input }] }],
+        systemInstruction: { parts: [{ text: systemInstruction }] }
+      })
+    });
+
+    if (genRes.ok) {
+      const genData = await genRes.json();
+      const reply = genData?.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+      if (reply) {
+        return {
+          success: true,
+          engine: "gemini_generate",
+          model: "gemini-2.0-flash",
+          text: cleanAiOutput(reply),
+          latencyMs: Date.now() - start
+        };
+      }
+    }
+
+    const err = await res.text();
+    return { success: false, engine: "gemini", status: res.status, error: err, latencyMs };
+  } catch (e) {
+    return { success: false, engine: "gemini", status: 0, error: e.message, latencyMs: Date.now() - start };
+  }
+}
+
+/**
+ * Remove any robotic AI provider disclaimers to preserve proprietary Govindam AI branding.
+ */
+function cleanAiOutput(text) {
+  if (!text) return "";
+  let cleaned = text;
+  cleaned = cleaned.replace(/^(as an ai developed by meta|as a large language model trained by google|i am an ai developed by meta)[^.]*\.\s*/i, '');
+  cleaned = cleaned.replace(/^hello!?\s*i am llama[^.]*\.\s*/i, '');
+  return cleaned.trim();
+}
+
+/**
+ * Sanitize API Keys (removes accidental quotes, whitespace, or prefix)
+ */
+function sanitizeKey(rawKey, keyName) {
+  if (!rawKey || typeof rawKey !== 'string') return "";
+  let key = rawKey.trim();
+  const regex = new RegExp(`^${keyName}\\s*=\\s*`, 'i');
+  key = key.replace(regex, '');
+  return key.replace(/^["']|["']$/g, '').trim();
+}
+
+/**
+ * Verified Govindam Nursery Knowledge Base (Offline Safety Net)
  */
 function getKnowledgeFallback(query) {
   const q = String(query).toLowerCase().trim();
+
+  // Office desk / small indoor plants
+  if (q.includes("office") || q.includes("desk") || q.includes("indoor") || q.includes("balcony") || q.includes("small plant")) {
+    return {
+      text: `🪴 **Best Plants for Office Desk & Indoors (Govindam Recommendations):**\n\n• **Snake Plant (Sansevieria)**: NASA-certified air purifier that releases oxygen at night. Thrives in indoor light and needs watering only once every 2-3 weeks!\n• **Money Plant (Pothos)**: Lush green trailing vine that purifies indoor air and grows easily in soil or water.\n• **Areca Palm / Jade Plant**: Compact, elegant green accents that add natural freshness to workspaces.\n\n💬 Connect directly on WhatsApp (+91 97725 85880) to get fresh desk saplings delivered in Jaipur!`
+    };
+  }
 
   // Multi-Plant Matcher
   const plantMap = [
@@ -385,7 +421,7 @@ function getKnowledgeFallback(query) {
   }
 
   return {
-    text: `🌱 **Govindam Nursery Assistant:**\n\nWe specialize in grafted fruit trees (Mango, Guava, Lemon, Pomegranate), medicinal plants (Neem, Tulsi, Arjun), and certified carbon-offset packages.\n\nAsk about any plant's care or sunlight requirements, or connect directly with our horticulturists on WhatsApp (+91 97725 85880)!`
+    text: `🌱 **Govindam Nursery Assistant:**\n\nWe specialize in grafted fruit trees (Mango, Guava, Lemon, Pomegranate), medicinal plants (Neem, Tulsi, Arjun), indoor air-purifiers, and certified carbon-offset packages.\n\nAsk about any plant's care or sunlight requirements, or connect directly with our horticulturists on WhatsApp (+91 97725 85880)!`
   };
 }
 
@@ -394,7 +430,7 @@ function getCorsHeaders(request) {
   return {
     "Access-Control-Allow-Origin": origin || "*",
     "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type, x-goog-api-key",
+    "Access-Control-Allow-Headers": "Content-Type, x-goog-api-key, Authorization",
     "Access-Control-Max-Age": "86400",
   };
 }

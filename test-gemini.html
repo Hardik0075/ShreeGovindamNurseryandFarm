@@ -555,8 +555,9 @@
                 const data = await res.json();
 
                 if (res.ok && !data.fallback) {
-                    badgeBox.innerHTML = `<span class="badge badge-success"><i class="fas fa-check-circle"></i> WORKER ONLINE & AI RESPONDING (${elapsed}ms)</span>`;
-                    resultBox.textContent = `[SUCCESS] Worker HTTP ${res.status} (${elapsed}ms)\n\n=== AI REPLY ===\n${data.reply}\n\n=== FULL JSON ===\n${JSON.stringify(data, null, 2)}`;
+                    const engineLabel = data.engine ? `Engine: ${data.engine.toUpperCase()}` : 'AI Online';
+                    badgeBox.innerHTML = `<span class="badge badge-success"><i class="fas fa-check-circle"></i> ${engineLabel} (${elapsed}ms)</span>`;
+                    resultBox.textContent = `[SUCCESS] Winner: ${data.engine || 'AI'} | Model: ${data.model} | HTTP ${res.status} (${elapsed}ms)\n\n=== AI REPLY ===\n${data.reply}\n\n=== FULL JSON ===\n${JSON.stringify(data, null, 2)}`;
                 } else if (data.fallback) {
                     badgeBox.innerHTML = `<span class="badge badge-danger"><i class="fas fa-triangle-exclamation"></i> FALLBACK TRIGGERED (${elapsed}ms)</span>`;
                     resultBox.textContent = `[FALLBACK RESPONSE] Status ${res.status} (${elapsed}ms)\n\nReply:\n${data.reply}\n\nDiagnostic Error:\n${data.errorDetail || '(none)'}\n\n=== FULL JSON ===\n${JSON.stringify(data, null, 2)}`;
