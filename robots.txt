@@ -3,25 +3,24 @@ Allow: /
 
 # Important pages for crawling
 Allow: /index.html
-Allow: /gallery.html
 Allow: /packages.html
+Allow: /gallery.html
 Allow: /carbon.html
 Allow: /contact.html
 
-# Allow CSS and JS files
+# Allow CSS and JS assets
 Allow: /css/
 Allow: /js/
 Allow: /assets/
 
-# Block sensitive/unnecessary files
+# Block sensitive/build files
 Disallow: /node_modules/
 Disallow: /.git/
+Disallow: /worker/
+Disallow: /test-gemini.html
 
 # Sitemap location
-Sitemap: https://shreegovindamnursuryandfarms.netlify.app/sitemap.xml
-
-# Crawl-delay for better server performance
-Crawl-delay: 2
+Sitemap: https://shrigovindamnurseryandfarms.netlify.app/sitemap.xml
 
 # Host
-Host: shreegovindamnursuryandfarms.netlify.app
+Host: shrigovindamnurseryandfarms.netlify.app
