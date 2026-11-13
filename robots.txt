@@ -1,26 +1,124 @@
-User-agent: *
-Allow: /
+# ==============================================================================
+# Shri Govindam Nursery and Farms - robots.txt
+# Domain: https://shrigovindamnurseryandfarms.netlify.app/
+# ==============================================================================
 
-# Important pages for crawling
+# ------------------------------------------------------------------------------
+# 1. Search Engine Crawlers (Googlebot & Bingbot)
+# Authorized for Search Indexing only.
+# ------------------------------------------------------------------------------
+User-agent: Googlebot
+Allow: /
 Allow: /index.html
 Allow: /packages.html
 Allow: /gallery.html
 Allow: /carbon.html
 Allow: /contact.html
-
-# Allow CSS and JS assets
+Allow: /sample_certificate.html
 Allow: /css/
 Allow: /js/
 Allow: /assets/
+Disallow: /data/
+Disallow: /worker/
+Disallow: /test*.html
+Disallow: /*.json$
 
-# Block sensitive/build files
+User-agent: Bingbot
+Allow: /
+Allow: /index.html
+Allow: /packages.html
+Allow: /gallery.html
+Allow: /carbon.html
+Allow: /contact.html
+Allow: /sample_certificate.html
+Allow: /css/
+Allow: /js/
+Allow: /assets/
+Disallow: /data/
+Disallow: /worker/
+Disallow: /test*.html
+Disallow: /*.json$
+
+# ------------------------------------------------------------------------------
+# 2. Block AI Scrapers, Data Harvesters & Commercial Content Scrapers
+# ------------------------------------------------------------------------------
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: Diffbot
+Disallow: /
+
+User-agent: PerplexityBot
+Disallow: /
+
+User-agent: Scrapy
+Disallow: /
+
+User-agent: FacebookBot
+Disallow: /
+
+User-agent: Meta-ExternalAgent
+Disallow: /
+
+User-agent: DataForSeoBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+# ------------------------------------------------------------------------------
+# 3. All Other Crawlers & Scrapers
+# Strictly disallow scraping of JS, CSS, JSON data, and private scripts
+# ------------------------------------------------------------------------------
+User-agent: *
+Allow: /
+Allow: /index.html
+Allow: /packages.html
+Allow: /gallery.html
+Allow: /carbon.html
+Allow: /contact.html
+Allow: /sample_certificate.html
+Disallow: /js/
+Disallow: /css/
+Disallow: /data/
+Disallow: /worker/
+Disallow: /*.js$
+Disallow: /*.css$
+Disallow: /*.json$
+Disallow: /*.toml$
 Disallow: /node_modules/
 Disallow: /.git/
-Disallow: /worker/
-Disallow: /test-gemini.html
+Disallow: /test*.html
 
-# Sitemap location
+# ------------------------------------------------------------------------------
+# Sitemap & Host
+# ------------------------------------------------------------------------------
 Sitemap: https://shrigovindamnurseryandfarms.netlify.app/sitemap.xml
-
-# Host
 Host: shrigovindamnurseryandfarms.netlify.app

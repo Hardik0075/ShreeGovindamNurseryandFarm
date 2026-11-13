@@ -16,3 +16,8 @@ Thumbs.db
 .vscode/
 .idea/
 
+# Diagnostics & Test Suites
+test-gemini.html
+test-*.html
+*test*.html
+
